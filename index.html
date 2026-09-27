@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>List of lists</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E9EEF4; --card:#FFFFFF; --ink:#1C2B45; --muted:#5A6780; --line:#CFD8E3; --rule:#E3E9F0;
+  --margin:#E0555B; --mark:#F6E04E; --mark-ink:#1C2B45; --focus:#2F6FEB; --shadow:rgba(28,43,69,.28);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121822; --card:#1B2331; --ink:#E6EBF3; --muted:#9AA6BA; --line:#2E394B; --rule:#263041;
+    --margin:#EE6C71; --mark:#D9C23A; --mark-ink:#141A24; --focus:#7AA7FF; --shadow:rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121822; --card:#1B2331; --ink:#E6EBF3; --muted:#9AA6BA; --line:#2E394B; --rule:#263041;
+  --margin:#EE6C71; --mark:#D9C23A; --mark-ink:#141A24; --focus:#7AA7FF; --shadow:rgba(0,0,0,.6);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{height:100%;margin:0;background:var(--paper);color:var(--ink);
+  font:16px/1.45 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.app{display:grid;grid-template-rows:auto 1fr;height:100%}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:22px 28px 18px;border-bottom:1px solid var(--line)}
+h1{font-family:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;font-weight:800;
+  font-size:clamp(2.1rem,4.6vw,3.6rem);line-height:.9;letter-spacing:-.035em;margin:0}
+.lead{margin:10px 0 0;max-width:60ch;color:var(--muted)}
+.browse-btn{display:none}
+
+.main{display:grid;grid-template-columns:292px 1fr;min-height:0}
+aside{border-right:1px solid var(--line);overflow-y:auto;padding:18px 16px 28px}
+.search{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.search::placeholder{color:var(--muted)}
+.group{margin-top:22px}
+.group h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;font-size:1.05rem;margin:0 0 6px 4px}
+.side{list-style:none;margin:0;padding:0}
+.side-list{display:flex;align-items:center;border-radius:7px;position:relative}
+.side-list .grip{width:22px;flex:none;align-self:stretch}
+.side-list .open{flex:1;display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  text-align:left;background:none;border:0;padding:7px 10px 7px 4px;border-radius:7px;cursor:pointer;min-width:0}
+.side-list .open .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side-list .open .n{color:var(--muted);font-size:.85rem;flex:none}
+.side-list:hover{background:var(--card)}
+.side-list.on{background:var(--card)}
+.side-list.on::before{content:"";position:absolute;left:-6px;top:8px;bottom:8px;width:4px;border-radius:2px;background:var(--mark)}
+.side-list.on .t{font-weight:700}
+.empty-note{color:var(--muted);font-size:.92rem;margin:4px 4px 10px}
+.btn{border:1px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:700}
+.btn.ghosty{background:transparent;color:var(--ink)}
+.txtbtn{background:none;border:0;padding:4px 6px;border-radius:6px;cursor:pointer;color:var(--ink);font-size:.88rem;text-decoration:underline;text-underline-offset:3px}
+.txtbtn.armed{background:var(--margin);color:#fff;text-decoration:none}
+.icon{width:30px;height:30px;display:grid;place-items:center;background:none;border:0;border-radius:6px;cursor:pointer;color:var(--muted);flex:none}
+.icon:hover{background:var(--rule);color:var(--ink)}
+.icon svg{width:16px;height:16px}
+
+.board{display:flex;gap:22px;overflow-x:auto;overflow-y:hidden;padding:26px 26px 22px;min-height:0;align-items:stretch}
+.board.hot{background:repeating-linear-gradient(135deg,transparent 0 14px,color-mix(in srgb,var(--mark) 22%,transparent) 14px 16px)}
+
+.bucket{flex:0 0 326px;display:flex;flex-direction:column;background:var(--card);border-radius:3px 3px 10px 10px;
+  position:relative;max-height:100%;box-shadow:0 1px 0 var(--line),0 16px 30px -24px var(--shadow)}
+.bucket::before{content:"";position:absolute;top:0;bottom:0;left:40px;width:1.5px;background:var(--margin);opacity:.5;pointer-events:none;z-index:1}
+.bucket.mine::after{content:"";position:absolute;top:-9px;left:50%;width:88px;height:20px;transform:translateX(-50%) rotate(-2.5deg);
+  background:var(--mark);opacity:.9;pointer-events:none;border-radius:1px}
+.bh{padding:18px 10px 10px 52px;border-bottom:2px solid var(--ink)}
+.bh h2,.title-in{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.45rem;line-height:1.05;letter-spacing:-.02em;margin:0}
+.title-in{width:100%;border:0;background:transparent;padding:2px 0;border-bottom:1px dashed transparent}
+.title-in:hover,.title-in:focus{border-bottom-color:var(--line);outline:none}
+.title-in::placeholder{color:var(--muted);opacity:.7}
+.meta{margin:4px 0 0;color:var(--muted);font-size:.85rem}
+.bacts{display:flex;align-items:center;justify-content:space-between;margin-top:8px;margin-left:-6px}
+.items{list-style:none;margin:0;padding:0;overflow-y:auto;flex:1;min-height:60px;overscroll-behavior:contain}
+.item{display:flex;align-items:flex-start;gap:4px;padding:7px 8px 7px 0;border-bottom:1px solid var(--rule);min-height:42px;background:var(--card)}
+.grip{width:40px;flex:none;display:grid;place-items:center;align-self:stretch;color:var(--muted);cursor:grab;touch-action:none;opacity:.55}
+.grip svg{width:10px;height:16px}
+.item:hover .grip,.side-list:hover .grip{opacity:1}
+.chk{margin:4px 2px 0 8px;width:17px;height:17px;accent-color:var(--ink);flex:none}
+.txt{flex:1;padding:2px 2px 2px 8px;overflow-wrap:anywhere}
+.item.done .txt{text-decoration:line-through;text-decoration-color:var(--margin);color:var(--muted)}
+.txt mark,.side-list mark{background:var(--mark);color:var(--mark-ink);border-radius:2px;padding:0 1px}
+.acts{display:flex;gap:0;opacity:0}
+.item:hover .acts,.item:focus-within .acts{opacity:1}
+@media (hover:none){.acts{opacity:1}}
+.item.flash{animation:flash 1.2s ease}
+@keyframes flash{0%,40%{background:var(--mark)}100%{background:var(--card)}}
+.items .blank{padding:22px 14px 22px 52px;color:var(--muted);font-size:.92rem;border:0}
+.add{display:flex;gap:6px;padding:10px 10px 12px 48px;border-top:1px solid var(--rule)}
+.add input{flex:1;min-width:0;border:1px solid var(--line);border-radius:7px;padding:7px 10px;background:transparent}
+.add button{border:0;background:var(--ink);color:var(--card);border-radius:7px;padding:7px 12px;font-weight:700;cursor:pointer}
+
+.new-drop{flex:0 0 250px;border:2px dashed var(--line);border-radius:10px;display:flex;flex-direction:column;justify-content:center;
+  align-items:flex-start;gap:10px;padding:26px;color:var(--muted)}
+.new-drop h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.45rem;letter-spacing:-.02em;color:var(--ink);margin:0}
+.new-drop p{margin:0}
+.new-drop.hot{border-color:var(--ink);border-style:solid;background:var(--mark);color:var(--mark-ink)}
+.new-drop.hot h2{color:var(--mark-ink)}
+
+.bucket.hot{outline:3px solid var(--mark);outline-offset:3px}
+.bucket.nope{opacity:.6}
+.placeholder{height:0;border-top:4px solid var(--mark);margin:-2px 10px -2px 44px;list-style:none;border-radius:2px;position:relative;z-index:2}
+.is-source{opacity:.35}
+body.dragging{cursor:grabbing;user-select:none;-webkit-user-select:none}
+body.dragging .board{scroll-snap-type:none}
+.ghost{position:fixed;left:0;top:0;z-index:50;pointer-events:none;background:var(--card);color:var(--ink);border:1px solid var(--line);
+  border-radius:8px;padding:9px 12px;max-width:280px;box-shadow:0 18px 36px -14px var(--shadow);transform-origin:0 0}
+.ghost .hint{display:block;margin-top:4px;font-size:.8rem;color:var(--muted)}
+.ghost .hint:empty{display:none}
+
+#menu{position:fixed;z-index:60;min-width:210px;max-width:280px;max-height:60vh;overflow:auto;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:6px;box-shadow:0 20px 40px -18px var(--shadow)}
+#menu[hidden]{display:none}
+#menu .mh{margin:4px 8px 6px;font-size:.82rem;color:var(--muted)}
+#menu button{display:block;width:100%;text-align:left;background:none;border:0;padding:8px 10px;border-radius:6px;cursor:pointer}
+#menu button:hover,#menu button:focus-visible{background:var(--rule)}
+#menu button.newl{font-weight:700}
+
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;
+  background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:9px;z-index:70;transition:opacity .2s,transform .2s;max-width:min(92vw,480px);pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:760px){
+  .top{padding:16px 16px 14px;align-items:center}
+  .lead{font-size:.93rem}
+  .browse-btn{display:inline-flex;flex:none}
+  .main{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  aside{display:none;border-right:0;border-bottom:1px solid var(--line);max-height:52vh}
+  .app.browse aside{display:block}
+  .board{padding:22px 16px 16px;gap:14px;scroll-snap-type:x mandatory}
+  .bucket{flex-basis:86vw;scroll-snap-align:center}
+  .new-drop{flex-basis:70vw;scroll-snap-align:center}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div>
+      <h1>List of lists</h1>
+      <p class="lead">Every list worth keeping, in one place. Open a list, then drag anything into a list of your own. Your lists are saved in this browser.</p>
+    </div>
+    <button class="btn ghosty browse-btn" data-act="browse" aria-expanded="false" aria-controls="sidebar">Browse lists</button>
+  </header>
+  <div class="main">
+    <aside id="sidebar" aria-label="All lists">
+      <label class="sr" for="q">Search lists and items</label>
+      <input id="q" class="search" type="search" placeholder="Search lists and items" autocomplete="off">
+      <div id="sideLists"></div>
+    </aside>
+    <main class="board" id="board" aria-label="Open lists"></main>
+  </div>
+</div>
+<div id="menu" role="menu" hidden></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const STARTERS = [
+ {t:"Life essentials", i:["1 pillow + 2–3 sets of pillowcases","1 mattress + 2–3 sets of sheets","1 cover-up or duvet + 2 covers","1 toothbrush + 1 toothpaste","Toilet paper","1 of each: face wash, hand wash, body wash, shampoo, conditioner","1 hair oil","1 of each: vitamin C, moisturizer, sunscreen, retinol","5–7 face/hand towels + 5–7 body towels","2 toilet/bath rugs","1 pair of home slippers","7–10 pairs of good socks","1 bathrobe","7 pairs of loungewear","5 pairs of workout gear","1 good pair of sports shoes","1 good water bottle for daily use","1 big water bottle for home/travel","First-aid kit"]},
+ {t:"Backpack essentials", i:["Laptop + charger","Phone charger + cable","Power bank","Earphones","Water bottle","Notebook + pen","Lip balm","Hand sanitizer","Pocket tissues","Snack bar","Sunglasses","Compact umbrella","Keys","Wallet and ID","Pain reliever","Foldable reusable bag"]},
+ {t:"Purse essentials", i:["Wallet with ID and cards","Phone","Keys","Lip balm or lipstick","Compact mirror","Hair ties + bobby pins","Mini hand cream","Mints or gum","Pocket tissues","Hand sanitizer","Pad or tampon","Small pen","Sunglasses","Earbuds","Mini perfume","A few bandages","Mini comb"]},
+ {t:"Luggage for travel essentials", i:["Passport + copies of visa and ID","Travel adapter","Chargers + power bank","Toiletry bag (liquids under 100 ml)","Medications for the whole trip","Underwear: 1 per day + 2 extra","Socks: 1 per day + 2 extra","Tops: 1 per 1–2 days","2–3 bottoms","Sleepwear","1 light jacket","Walking shoes + sandals","Swimwear","Packing cubes","Laundry bag","Earplugs + eye mask","Neck pillow","Empty reusable water bottle","Snacks for the journey","Booking confirmations","Small luggage lock"]},
+ {t:"Emergency kit (car, home, office)", i:["Water: 1 gallon per person per day, for 3 days","Non-perishable food for 3 days","Flashlight + extra batteries","First-aid kit","Phone charger + power bank","Whistle","Multi-tool","Emergency blanket","Face masks","Cash in small bills","Copies of ID and insurance","7-day supply of prescription meds","Battery or hand-crank radio","Jumper cables (car)","Tire inflator (car)","Rain poncho","Wet wipes","Duct tape","Paper map of the area","Lighter or waterproof matches"]},
+ {t:"Restaurants", i:["Katz's Delicatessen, New York","Le Bernardin, New York","Café du Monde, New Orleans","Franklin Barbecue, Austin","Joe's Stone Crab, Miami","Pujol, Mexico City","Osteria Francescana, Modena","El Celler de Can Roca, Girona","Hofbräuhaus, Munich","Sushi Dai, Tokyo","Ichiran, Fukuoka","Din Tai Fung, Taipei","Tim Ho Wan, Hong Kong","Jay Fai, Bangkok","Lau Pa Sat hawker centre, Singapore","Karim's, Delhi","Leopold Café, Mumbai"]},
+ {t:"Books", i:["To Kill a Mockingbird, Harper Lee","1984, George Orwell","Pride and Prejudice, Jane Austen","One Hundred Years of Solitude, Gabriel García Márquez","The Great Gatsby, F. Scott Fitzgerald","Beloved, Toni Morrison","Things Fall Apart, Chinua Achebe","The God of Small Things, Arundhati Roy","Norwegian Wood, Haruki Murakami","The Little Prince, Antoine de Saint-Exupéry","The Hobbit, J.R.R. Tolkien","Siddhartha, Hermann Hesse","Man's Search for Meaning, Viktor Frankl","Meditations, Marcus Aurelius","Sapiens, Yuval Noah Harari","Thinking, Fast and Slow, Daniel Kahneman","Atomic Habits, James Clear"]},
+ {t:"Food", i:["Ramen","Biryani","Pho","Tacos al pastor","Neapolitan pizza","Dim sum","Croissant","Paella","Pad thai","Masala dosa","Sushi","Shakshuka","Jollof rice","Ceviche","Bibimbap","Gelato","Baklava","Pierogi"]},
+ {t:"Museums", i:["The Louvre, Paris","Musée d'Orsay, Paris","British Museum, London","Metropolitan Museum of Art, New York","Museum of Modern Art, New York","National Air and Space Museum, Washington, D.C.","Rijksmuseum, Amsterdam","Uffizi Gallery, Florence","Vatican Museums, Vatican City","Museo del Prado, Madrid","Guggenheim Museum, Bilbao","Acropolis Museum, Athens","Grand Egyptian Museum, Giza","State Hermitage Museum, St. Petersburg","Tokyo National Museum","National Palace Museum, Taipei","National Museum of Anthropology, Mexico City"]},
+ {t:"Most versatile fridge", i:["Eggs + tortillas + cheese: breakfast tacos, quesadillas, migas, egg wraps","Rice + frozen peas + eggs + soy sauce: fried rice, egg bowls, congee, omurice","Pasta + canned tomatoes + garlic + parmesan: marinara, arrabbiata, baked pasta, tomato soup","Chickpeas + lemon + tahini + garlic: hummus, chickpea patties, chickpea salad, roasted chickpeas","Greek yogurt + honey + oats + berries: parfait, overnight oats, smoothies, yogurt bark","Chicken thighs + onion + bell peppers + spices: fajitas, stir-fry, sheet-pan roast, curry","Potatoes + onions + eggs: Spanish tortilla, hash, potato salad, aloo sabzi","Bread + butter + cheese + tomatoes: grilled cheese, bruschetta, panzanella, strata","Lentils + onion + tomato + cumin: dal, lentil soup, lentil salad, sloppy joes","Spinach + feta + eggs: omelette, spanakopita bake, salad, stuffed wraps","Coconut milk + curry paste + any vegetable: curry, soup, noodle bowls","Paneer + onion + tomato + spices: paneer bhurji, tikka, butter masala, wraps"]},
+ {t:"Countries", i:["Japan","Italy","India","Mexico","Peru","Morocco","Iceland","Portugal","Vietnam","New Zealand","Greece","Türkiye","South Africa","Norway","Thailand","Argentina","Egypt","Canada"]},
+ {t:"Hobbies", i:["Reading","Journaling","Cooking","Baking bread","Running","Hiking","Rock climbing","Swimming","Yoga","Pottery","Knitting or crochet","Sketching","Watercolor painting","Photography","Gardening","Learning a language","Playing an instrument","Chess","Board games","Dancing","Birdwatching","Woodworking","Cycling"]},
+ {t:"Topics of interest", i:["Astronomy","Psychology","History of empires","Philosophy","Behavioral economics","Personal finance","Nutrition science","Architecture","Linguistics","Neuroscience","Climate and energy","Artificial intelligence","Mythology","Design","Evolutionary biology","Geopolitics","Recreational math","Art history"]},
+ {t:"Movies", i:["Spirited Away","The Godfather","Parasite","Casablanca","Pulp Fiction","The Shawshank Redemption","Seven Samurai","In the Mood for Love","Amélie","3 Idiots","Lagaan","City of God","Before Sunrise","Inception","The Dark Knight","Whiplash","Coco","Everything Everywhere All at Once"]},
+ {t:"Shows", i:["Breaking Bad","Better Call Saul","The Wire","The Office (US)","Friends","Gilmore Girls","Game of Thrones","Succession","Fleabag","Sherlock","Dark","Chernobyl","Ted Lasso","Severance","Squid Game","Planet Earth","Avatar: The Last Airbender","Attack on Titan"]},
+ {t:"Comic artists", i:["Osamu Tezuka","Hayao Miyazaki","Katsuhiro Otomo","Rumiko Takahashi","Akira Toriyama","Naoki Urasawa","Takehiko Inoue","Junji Ito","Hergé","Moebius","Jack Kirby","Frank Miller","Charles M. Schulz","Bill Watterson","Art Spiegelman","Marjane Satrapi","Alison Bechdel","Chris Ware"]},
+ {t:"Comics or manga", i:["Maus","Persepolis","Watchmen","The Sandman","Saga","Fun Home","Blankets","Calvin and Hobbes","The Adventures of Tintin","Akira","Monster","Pluto","Vagabond","Slam Dunk","One Piece","Berserk","Nausicaä of the Valley of the Wind"]}
+];
+const starters = STARTERS.map((l,i)=>({id:"s"+i,title:l.t,items:l.i.map((text,j)=>({id:`s${i}-${j}`,text}))}));
+
+const KEY="list-of-lists:v1";
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=()=>Math.random().toString(36).slice(2,10);
+const isMine=id=>id.startsWith("m");
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const GRIP='<svg viewBox="0 0 10 16" aria-hidden="true"><g fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="8" cy="2" r="1.5"/><circle cx="2" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="2" cy="14" r="1.5"/><circle cx="8" cy="14" r="1.5"/></g></svg>';
+const PLUS='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const CROSS='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.mine)&&Array.isArray(s.open))return s}catch(e){}return null}
+let saveT;function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}},120)}
+let state=load()||{mine:[],open:["s0"]};
+function getList(id){return starters.find(l=>l.id===id)||state.mine.find(l=>l.id===id)}
+state.open=state.open.filter(id=>getList(id));
+
+let query="",focusAfter=null;
+const app=$("#app"),board=$("#board"),sideEl=$("#sideLists"),menu=$("#menu"),toastEl=$("#toast");
+const name=l=>l.title.trim()||"Untitled list";
+const dup=(l,text)=>l.items.some(i=>i.text.trim().toLowerCase()===text.trim().toLowerCase());
+function hl(text){
+  const e=esc(text);if(!query)return e;
+  const q=esc(query).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  return e.replace(new RegExp(q,"gi"),m=>`<mark>${m}</mark>`);
+}
+let toastT;function toast(msg){toastEl.textContent=msg;toastEl.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove("show"),2600)}
+
+/* ---------- render ---------- */
+function sideRow(l){
+  const on=state.open.includes(l.id);
+  let n=l.items.length;
+  if(query){const m=l.items.filter(i=>i.text.toLowerCase().includes(query)).length;if(m)n=`${m} match${m>1?"es":""}`}
+  return `<li class="side-list${on?" on":""}" data-list="${l.id}">
+    <span class="grip" title="Drag onto the board or into one of your lists">${GRIP}</span>
+    <button class="open" data-act="toggle" aria-pressed="${on}"><span class="t">${hl(name(l))}</span><span class="n">${n}</span></button></li>`;
+}
+function matches(l){return !query||name(l).toLowerCase().includes(query)||l.items.some(i=>i.text.toLowerCase().includes(query))}
+function renderSidebar(){
+  const s=starters.filter(matches),m=state.mine.filter(matches);
+  let mineBody;
+  if(!state.mine.length) mineBody=`<p class="empty-note">Nothing here yet. Drag an item onto “Start a new list”, or make a copy of any starter list.</p>`;
+  else if(!m.length) mineBody=`<p class="empty-note">None of your lists match.</p>`;
+  else mineBody=`<ul class="side">${m.map(sideRow).join("")}</ul>`;
+  sideEl.innerHTML=`
+    <section class="group"><h2>Your lists</h2>${mineBody}<button class="btn ghosty" data-act="new" style="margin:6px 0 0 4px">New list</button></section>
+    <section class="group"><h2>Starter lists</h2>${s.length?`<ul class="side">${s.map(sideRow).join("")}</ul>`:`<p class="empty-note">No starter lists match “${esc(query)}”.</p>`}</section>`;
+}
+function itemRow(l,it,mine){
+  return `<li class="item${it.done?" done":""}" data-list="${l.id}" data-item="${it.id}">
+    <span class="grip" title="Drag to another list">${GRIP}</span>
+    ${mine?`<input type="checkbox" class="chk" data-act="tick" ${it.done?"checked":""} aria-label="Tick off ${esc(it.text)}">`:""}
+    <span class="txt">${hl(it.text)}</span>
+    <span class="acts">
+      <button class="icon" data-act="send" title="Add to one of your lists" aria-label="Add “${esc(it.text)}” to one of your lists">${PLUS}</button>
+      ${mine?`<button class="icon" data-act="remove" title="Remove" aria-label="Remove “${esc(it.text)}”">${CROSS}</button>`:""}
+    </span></li>`;
+}
+function bucket(l){
+  const mine=isMine(l.id),c=l.items.length,done=mine?l.items.filter(i=>i.done).length:0;
+  return `<section class="bucket ${mine?"mine":"starter"}" data-list="${l.id}" aria-label="${esc(name(l))}">
+    <header class="bh">
+      ${mine?`<input class="title-in" data-act="title" value="${esc(l.title)}" placeholder="Name this list" aria-label="List name">`:`<h2>${esc(l.title)}</h2>`}
+      <p class="meta">${c} ${c===1?"item":"items"}${mine?(done?`, ${done} ticked off`:""):", starter list"}</p>
+      <div class="bacts">
+        ${mine?`<button class="txtbtn" data-act="del">Delete list</button>`:`<button class="txtbtn" data-act="copy">Make my own copy</button>`}
+        <button class="icon" data-act="close" title="Close" aria-label="Close ${esc(name(l))}">${CROSS}</button>
+      </div>
+    </header>
+    <ul class="items">${c?l.items.map(it=>itemRow(l,it,mine)).join(""):`<li class="blank">Drag items here from any list, or type one below.</li>`}</ul>
+    ${mine?`<form class="add" data-list="${l.id}"><input name="t" placeholder="Add an item" aria-label="Add an item to ${esc(name(l))}" autocomplete="off"><button>Add</button></form>`:""}
+  </section>`;
+}
+function renderBoard(){
+  const x=board.scrollLeft,ys={};
+  board.querySelectorAll(".bucket").forEach(b=>ys[b.dataset.list]=b.querySelector(".items").scrollTop);
+  board.innerHTML=state.open.map(id=>bucket(getList(id))).join("")+
+    `<div class="new-drop"><h2>Start a new list</h2><p>Drop an item or a whole list here.</p><button class="btn" data-act="new">Create an empty list</button></div>`;
+  board.scrollLeft=x;
+  board.querySelectorAll(".bucket").forEach(b=>{if(ys[b.dataset.list]!=null)b.querySelector(".items").scrollTop=ys[b.dataset.list]});
+  if(focusAfter){
+    const b=board.querySelector(`.bucket[data-list="${focusAfter.list}"]`);
+    if(b){
+      if(focusAfter.reveal)b.scrollIntoView({behavior:reduced?"auto":"smooth",inline:"nearest",block:"nearest"});
+      if(focusAfter.what==="title")b.querySelector(".title-in")?.focus({preventScroll:true});
+      if(focusAfter.what==="add"){const u=b.querySelector(".items");u.scrollTop=u.scrollHeight;b.querySelector(".add input")?.focus({preventScroll:true})}
+      if(focusAfter.flash){const li=b.querySelector(`.item[data-item="${focusAfter.flash}"]`);if(li){li.scrollIntoView({block:"nearest"});li.classList.add("flash")}}
+    }
+    focusAfter=null;
+  }
+}
+function render(){renderSidebar();renderBoard()}
+
+/* ---------- actions ---------- */
+function openList(id,after){
+  if(!state.open.includes(id)){
+    const i=after?state.open.indexOf(after):-1;
+    if(i>=0)state.open.splice(i+1,0,id);else state.open.push(id);
+  }
+  focusAfter={...(focusAfter||{}),list:id,reveal:true};
+}
+function createList(title,items=[],after){
+  const m={id:"m"+uid(),title,items};
+  state.mine.push(m);openList(m.id,after);return m;
+}
+const copyItem=it=>({id:uid(),text:it.text,done:false});
+function copyAsMine(l){
+  const m=createList(l.title,l.items.map(copyItem),l.id);
+  toast(`Copied “${name(l)}” to your lists.`);return m;
+}
+function closeMobileBrowse(){app.classList.remove("browse");$(".browse-btn").setAttribute("aria-expanded","false")}
+
+let suppressClick=false;
+document.addEventListener("click",e=>{if(suppressClick){suppressClick=false;e.preventDefault();e.stopPropagation()}},true);
+document.addEventListener("click",e=>{
+  if(!menu.hidden&&!e.target.closest("#menu,[data-act=send]"))closeMenu();
+  const a=e.target.closest("[data-act]");if(!a)return;
+  const holder=a.closest("[data-list]"),listId=holder?.dataset.list;
+  switch(a.dataset.act){
+    case "browse":{const on=app.classList.toggle("browse");a.setAttribute("aria-expanded",on);break}
+    case "toggle":
+      if(state.open.includes(listId)){state.open=state.open.filter(i=>i!==listId)}
+      else{openList(listId);closeMobileBrowse()}
+      save();render();break;
+    case "close":state.open=state.open.filter(i=>i!==listId);save();render();break;
+    case "copy":copyAsMine(getList(listId));save();render();break;
+    case "new":createList("");focusAfter.what="title";closeMobileBrowse();save();render();break;
+    case "del":{
+      if(a.dataset.armed){
+        const l=getList(listId);
+        state.mine=state.mine.filter(m=>m.id!==listId);state.open=state.open.filter(i=>i!==listId);
+        save();render();toast(`Deleted “${name(l)}”.`);
+      }else{a.dataset.armed="1";a.classList.add("armed");a.textContent="Press again to delete";
+        setTimeout(()=>{if(a.isConnected){delete a.dataset.armed;a.classList.remove("armed");a.textContent="Delete list"}},3000)}
+      break}
+    case "remove":{
+      const l=getList(listId),id=a.closest(".item").dataset.item;
+      l.items=l.items.filter(i=>i.id!==id);save();render();break}
+    case "send":openMenu(a,listId,a.closest(".item").dataset.item);break;
+    case "to":sendTo(a.dataset.to);break;
+  }
+});
+document.addEventListener("change",e=>{
+  if(e.target.dataset.act!=="tick")return;
+  const li=e.target.closest(".item"),l=getList(li.dataset.list),it=l.items.find(i=>i.id===li.dataset.item);
+  it.done=e.target.checked;li.classList.toggle("done",it.done);
+  const d=l.items.filter(i=>i.done).length;
+  li.closest(".bucket").querySelector(".meta").textContent=`${l.items.length} ${l.items.length===1?"item":"items"}${d?`, ${d} ticked off`:""}`;
+  save();
+});
+document.addEventListener("input",e=>{
+  if(e.target.id==="q"){query=e.target.value.trim().toLowerCase();render();return}
+  if(e.target.dataset.act==="title"){
+    const l=getList(e.target.closest(".bucket").dataset.list);l.title=e.target.value;save();renderSidebar();
+  }
+});
+document.addEventListener("submit",e=>{
+  const f=e.target.closest(".add");if(!f)return;e.preventDefault();
+  const inp=f.querySelector("input"),text=inp.value.trim(),l=getList(f.dataset.list);if(!text)return;
+  if(dup(l,text)){toast(`“${text}” is already on this list.`);return}
+  l.items.push({id:uid(),text,done:false});focusAfter={list:l.id,what:"add"};save();render();
+});
+
+/* ---------- add-to menu ---------- */
+function openMenu(btn,listId,itemId){
+  const others=state.mine.filter(m=>m.id!==listId);
+  menu.dataset.list=listId;menu.dataset.item=itemId;
+  menu.innerHTML=`<p class="mh">Add to</p>${others.map(m=>`<button role="menuitem" data-act="to" data-to="${m.id}">${esc(name(m))}</button>`).join("")}<button role="menuitem" class="newl" data-act="to" data-to="__new">New list</button>`;
+  menu.hidden=false;
+  const r=btn.getBoundingClientRect(),w=menu.offsetWidth,h=menu.offsetHeight;
+  let left=Math.min(r.right-w,innerWidth-w-8);left=Math.max(8,left);
+  let top=r.bottom+6;if(top+h>innerHeight-8)top=Math.max(8,r.top-h-6);
+  menu.style.left=left+"px";menu.style.top=top+"px";
+  menu.querySelector("button").focus();
+}
+function closeMenu(){menu.hidden=true}
+function sendTo(to){
+  const from=getList(menu.dataset.list),it=from.items.find(i=>i.id===menu.dataset.item);closeMenu();
+  if(!it)return;
+  if(to==="__new"){createList("",[copyItem(it)]);focusAfter.what="title";save();render();return}
+  const t=getList(to);
+  if(dup(t,it.text)){toast(`“${it.text}” is already in “${name(t)}”.`);return}
+  t.items.push(copyItem(it));save();render();toast(`Added to “${name(t)}”.`);
+}
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){if(!menu.hidden)closeMenu();if(drag)cancelDrag()}
+  if(!menu.hidden&&(e.key==="ArrowDown"||e.key==="ArrowUp")){
+    const bs=[...menu.querySelectorAll("button")],i=bs.indexOf(document.activeElement);
+    bs[(i+(e.key==="ArrowDown"?1:-1)+bs.length)%bs.length].focus();e.preventDefault();
+  }
+});
+addEventListener("resize",closeMenu);
+board.addEventListener("scroll",closeMenu,{passive:true});
+
+/* ---------- drag and drop (pointer based, works with mouse and touch) ---------- */
+let drag=null;const ph=document.createElement("li");ph.className="placeholder";
+document.addEventListener("pointerdown",e=>{
+  if(e.pointerType==="mouse"&&e.button!==0)return;
+  const src=e.target.closest(".item,.side-list");if(!src)return;
+  if(e.target.closest("input,.acts,form"))return;
+  const onGrip=!!e.target.closest(".grip");
+  if(e.pointerType!=="mouse"&&!onGrip)return;
+  if(onGrip)e.preventDefault();
+  drag={src,kind:src.classList.contains("item")?"item":"list",x0:e.clientX,y0:e.clientY,x:e.clientX,y:e.clientY,on:false,target:null};
+  addEventListener("pointermove",onMove);addEventListener("pointerup",onUp);addEventListener("pointercancel",cancelDrag);
+});
+function onMove(e){
+  if(!drag)return;drag.x=e.clientX;drag.y=e.clientY;
+  if(!drag.on){if(Math.hypot(drag.x-drag.x0,drag.y-drag.y0)<6)return;startDrag()}
+  e.preventDefault();placeGhost();hitTest();
+}
+function startDrag(){
+  drag.on=true;closeMenu();getSelection()?.removeAllRanges();
+  document.body.classList.add("dragging");drag.src.classList.add("is-source");
+  const g=document.createElement("div");g.className="ghost";
+  if(drag.kind==="item"){g.innerHTML=`${esc(getList(drag.src.dataset.list).items.find(i=>i.id===drag.src.dataset.item).text)}<span class="hint"></span>`}
+  else{const l=getList(drag.src.dataset.list);g.innerHTML=`<strong>${esc(name(l))}</strong>, ${l.items.length} items<span class="hint"></span>`}
+  document.body.appendChild(g);drag.ghost=g;placeGhost();
+  const tick=()=>{if(!drag||!drag.on)return;
+    const r=board.getBoundingClientRect(),edge=60;let moved=false;
+    if(drag.y>r.top&&drag.y<r.bottom){
+      if(drag.x<r.left+edge){board.scrollLeft-=14;moved=true}else if(drag.x>r.right-edge){board.scrollLeft+=14;moved=true}
+    }
+    const el=document.elementFromPoint(drag.x,drag.y),ul=el&&el.closest(".items");
+    if(ul){const u=ul.getBoundingClientRect();if(drag.y<u.top+36){ul.scrollTop-=9;moved=true}else if(drag.y>u.bottom-36){ul.scrollTop+=9;moved=true}}
+    if(moved)hitTest();drag.raf=requestAnimationFrame(tick)};
+  drag.raf=requestAnimationFrame(tick);
+}
+function placeGhost(){drag.ghost.style.transform=`translate(${drag.x+14}px,${drag.y+12}px) rotate(-1.5deg)`}
+function hint(t){drag.ghost.querySelector(".hint").textContent=t}
+function clearHot(){
+  document.querySelectorAll(".hot,.nope").forEach(n=>n.classList.remove("hot","nope"));ph.remove();
+}
+function hitTest(){
+  clearHot();drag.target=null;hint("");
+  const el=document.elementFromPoint(drag.x,drag.y);if(!el)return;
+  const b=el.closest(".bucket"),nd=el.closest(".new-drop"),bd=el.closest(".board"),srcList=drag.src.dataset.list;
+  if(drag.kind==="item"){
+    if(b&&b.classList.contains("mine")){
+      const ul=b.querySelector(".items"),rows=[...ul.querySelectorAll(".item")].filter(li=>li!==drag.src);
+      let idx=rows.length;for(let i=0;i<rows.length;i++){const r=rows[i].getBoundingClientRect();if(drag.y<r.top+r.height/2){idx=i;break}}
+      if(rows[idx])ul.insertBefore(ph,rows[idx]);else ul.appendChild(ph);
+      b.classList.add("hot");drag.target={type:"into",id:b.dataset.list,idx};
+      if(isMine(srcList)&&b.dataset.list!==srcList)hint("Moves it. Hold Alt to copy instead.");
+    }else if(b){b.classList.add("nope");hint("Starter lists stay as they are. Drop into one of yours.")}
+    else if(nd){nd.classList.add("hot");drag.target={type:"new"}}
+  }else{
+    if(b&&b.classList.contains("mine")&&b.dataset.list!==srcList){b.classList.add("hot");drag.target={type:"merge",id:b.dataset.list};hint("Adds every item you don't already have.")}
+    else if(b&&b.dataset.list===srcList){}
+    else if(b){b.classList.add("nope");hint("Drop into one of your lists, or on the empty board to open it.")}
+    else if(nd){nd.classList.add("hot");drag.target={type:"new"};hint("Makes your own copy.")}
+    else if(bd){bd.classList.add("hot");drag.target={type:"open"};hint("Opens it on the board.")}
+  }
+}
+function onUp(e){
+  if(!drag)return;
+  if(drag.on){hitTest();const t=drag.target,d=drag;suppressClick=true;setTimeout(()=>suppressClick=false,60);endDrag();if(t)drop(d,t,e.altKey)}
+  else endDrag();
+}
+function cancelDrag(){endDrag()}
+function endDrag(){
+  if(!drag)return;cancelAnimationFrame(drag.raf);drag.ghost?.remove();drag.src.classList.remove("is-source");
+  clearHot();document.body.classList.remove("dragging");
+  removeEventListener("pointermove",onMove);removeEventListener("pointerup",onUp);removeEventListener("pointercancel",cancelDrag);
+  drag=null;
+}
+function drop(d,t,altCopy){
+  const fromId=d.src.dataset.list,from=getList(fromId);
+  if(d.kind==="item"){
+    const it=from.items.find(i=>i.id===d.src.dataset.item),moving=isMine(fromId)&&!altCopy;
+    if(t.type==="into"){
+      const to=getList(t.id);
+      if(to===from){from.items.splice(from.items.indexOf(it),1);from.items.splice(t.idx,0,it)}
+      else{
+        if(dup(to,it.text)){const ex=to.items.find(i=>i.text.trim().toLowerCase()===it.text.trim().toLowerCase());focusAfter={list:to.id,flash:ex.id};render();toast(`“${it.text}” is already in “${name(to)}”.`);return}
+        if(moving){from.items.splice(from.items.indexOf(it),1);to.items.splice(t.idx,0,it)}
+        else to.items.splice(t.idx,0,copyItem(it));
+        focusAfter={list:to.id,flash:moving?it.id:to.items[t.idx].id};
+      }
+    }else if(t.type==="new"){
+      let moved=it;if(moving)from.items.splice(from.items.indexOf(it),1);else moved=copyItem(it);
+      createList("",[moved]);focusAfter.what="title";
+    }
+  }else{
+    if(t.type==="merge"){
+      const to=getList(t.id);let n=0;
+      from.items.forEach(i=>{if(!dup(to,i.text)){to.items.push(copyItem(i));n++}});
+      toast(n?`Added ${n} item${n>1?"s":""} from “${name(from)}”.`:`Everything from “${name(from)}” is already there.`);
+    }else if(t.type==="new"){copyAsMine(from)}
+    else if(t.type==="open"){openList(fromId)}
+  }
+  save();render();
+}
+
+render();
+</script>
+</body>
+</html>
