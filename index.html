@@ -4,215 +4,720 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>List of lists</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#E9EEF4; --card:#FFFFFF; --ink:#1C2B45; --muted:#5A6780; --line:#CFD8E3; --rule:#E3E9F0;
-  --margin:#E0555B; --mark:#F6E04E; --mark-ink:#1C2B45; --focus:#2F6FEB; --shadow:rgba(28,43,69,.28);
+  --sky:#A8DCE4; --cloud:#F7FBF8; --hill1:#A3A866; --hill2:#7C8545; --leaf:#667036;
+  --soil:#E6CFA8; --soil2:#E0C79D; --wood:#8A5632; --wood-dark:#5C3520; --wall:#F3DDB8; --win:#F6C35C;
+  --paper:#FFF6E6; --ink:#3A2418; --muted:#7A5A45; --line:#D9C3A3; --rule:#F0E2CC;
+  --red:#C0392B; --orange:#E2703A; --saffron:#F2B144; --cream:#FFF1DC; --pink:#F2A7A0;
+  --on-red:#FFF1DC; --edge:#3A2418; --drop:rgba(58,36,24,.22); --mark:#F6C35C; --mark-ink:#3A2418; --focus:#2B5FB8;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#121822; --card:#1B2331; --ink:#E6EBF3; --muted:#9AA6BA; --line:#2E394B; --rule:#263041;
-    --margin:#EE6C71; --mark:#D9C23A; --mark-ink:#141A24; --focus:#7AA7FF; --shadow:rgba(0,0,0,.6);
+    --sky:#1F2442; --cloud:#363C62; --hill1:#3A4127; --hill2:#2B321C; --leaf:#46512A;
+    --soil:#241A14; --soil2:#281E17; --wood:#6B4027; --wood-dark:#3E2415; --wall:#6E5642; --win:#FFD36B;
+    --paper:#30251D; --ink:#F3E6D6; --muted:#C2A891; --line:#4E3D30; --rule:#3B2E24;
+    --red:#B83B2F; --orange:#EE8448; --saffron:#E8A93A; --cream:#F0DDC2; --pink:#C9786F;
+    --on-red:#FFEBD8; --edge:#0E0906; --drop:rgba(0,0,0,.45); --mark:#D9A24A; --mark-ink:#1C1410; --focus:#8AB4FF;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#121822; --card:#1B2331; --ink:#E6EBF3; --muted:#9AA6BA; --line:#2E394B; --rule:#263041;
-  --margin:#EE6C71; --mark:#D9C23A; --mark-ink:#141A24; --focus:#7AA7FF; --shadow:rgba(0,0,0,.6);
+  --sky:#1F2442; --cloud:#363C62; --hill1:#3A4127; --hill2:#2B321C; --leaf:#46512A;
+  --soil:#241A14; --soil2:#281E17; --wood:#6B4027; --wood-dark:#3E2415; --wall:#6E5642; --win:#FFD36B;
+  --paper:#30251D; --ink:#F3E6D6; --muted:#C2A891; --line:#4E3D30; --rule:#3B2E24;
+  --red:#B83B2F; --orange:#EE8448; --saffron:#E8A93A; --cream:#F0DDC2; --pink:#C9786F;
+  --on-red:#FFEBD8; --edge:#0E0906; --drop:rgba(0,0,0,.45); --mark:#D9A24A; --mark-ink:#1C1410; --focus:#8AB4FF;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
-body{height:100%;margin:0;background:var(--paper);color:var(--ink);
+body{height:100%;margin:0;color:var(--ink);background:repeating-conic-gradient(var(--soil) 0 25%,var(--soil2) 0 50%) 0 0/24px 24px;
   font:16px/1.45 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif}
 button,input{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;line-height:1}
+.pixel{font-family:"Pixelify Sans","Courier New",monospace}
+.px{box-shadow:0 -4px 0 0 var(--edge),0 4px 0 0 var(--edge),-4px 0 0 0 var(--edge),4px 0 0 0 var(--edge),8px 8px 0 0 var(--drop)}
 
-.app{display:grid;grid-template-rows:auto 1fr;height:100%}
-.top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:22px 28px 18px;border-bottom:1px solid var(--line)}
-h1{font-family:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;font-weight:800;
-  font-size:clamp(2.1rem,4.6vw,3.6rem);line-height:.9;letter-spacing:-.035em;margin:0}
-.lead{margin:10px 0 0;max-width:60ch;color:var(--muted)}
-.browse-btn{display:none}
+.app{display:flex;flex-direction:column;height:100%}
 
-.main{display:grid;grid-template-columns:292px 1fr;min-height:0}
-aside{border-right:1px solid var(--line);overflow-y:auto;padding:18px 16px 28px}
-.search{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
-.search::placeholder{color:var(--muted)}
-.group{margin-top:22px}
-.group h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;font-size:1.05rem;margin:0 0 6px 4px}
-.side{list-style:none;margin:0;padding:0}
-.side-list{display:flex;align-items:center;border-radius:7px;position:relative}
-.side-list .grip{width:22px;flex:none;align-self:stretch}
-.side-list .open{flex:1;display:flex;justify-content:space-between;align-items:baseline;gap:10px;
-  text-align:left;background:none;border:0;padding:7px 10px 7px 4px;border-radius:7px;cursor:pointer;min-width:0}
-.side-list .open .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.side-list .open .n{color:var(--muted);font-size:.85rem;flex:none}
-.side-list:hover{background:var(--card)}
-.side-list.on{background:var(--card)}
-.side-list.on::before{content:"";position:absolute;left:-6px;top:8px;bottom:8px;width:4px;border-radius:2px;background:var(--mark)}
-.side-list.on .t{font-weight:700}
-.empty-note{color:var(--muted);font-size:.92rem;margin:4px 4px 10px}
-.btn{border:1px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:700}
-.btn.ghosty{background:transparent;color:var(--ink)}
-.txtbtn{background:none;border:0;padding:4px 6px;border-radius:6px;cursor:pointer;color:var(--ink);font-size:.88rem;text-decoration:underline;text-underline-offset:3px}
-.txtbtn.armed{background:var(--margin);color:#fff;text-decoration:none}
-.icon{width:30px;height:30px;display:grid;place-items:center;background:none;border:0;border-radius:6px;cursor:pointer;color:var(--muted);flex:none}
+/* Header: a little pixel village */
+.top{position:relative;flex:none;background:var(--sky);text-align:center;padding:20px 16px 78px;overflow:hidden;border-bottom:4px solid var(--edge)}
+.scene{position:absolute;inset:0;width:100%;height:100%}
+.k-cloud{fill:var(--cloud)} .k-hill1{fill:var(--hill1)} .k-hill2{fill:var(--hill2)} .k-leaf{fill:var(--leaf)}
+.k-wall{fill:var(--wall)} .k-dark{fill:var(--wood-dark)} .k-win{fill:var(--win)}
+.k-roof1{fill:var(--red)} .k-roof2{fill:var(--orange)} .k-roof3{fill:var(--wood)}
+.k-flower{fill:var(--pink)} .k-flower2{fill:var(--saffron)}
+.k-smoke{fill:var(--cloud);opacity:0;animation:puff 3.2s steps(8) infinite}
+@keyframes puff{0%{opacity:0;transform:translateY(4px)}20%{opacity:.9}100%{opacity:0;transform:translateY(-10px)}}
+.top>*:not(.scene){position:relative}
+.sign{display:inline-block;padding:12px 26px 10px;background:repeating-linear-gradient(0deg,var(--wood) 0 14px,var(--wood-dark) 14px 16px)}
+h1{margin:0;font-family:"Pixelify Sans","Courier New",monospace;font-weight:700;font-size:clamp(2.2rem,5.6vw,4rem);line-height:1;
+  color:var(--cream);text-shadow:4px 4px 0 var(--wood-dark);letter-spacing:.01em}
+.lead{display:block;width:fit-content;max-width:min(70ch,100%);margin:18px auto 0;padding:8px 14px;background:var(--paper);font-size:.95rem}
+.browse-btn{display:none!important;margin:16px auto 0}
+
+.btn{font-family:"Pixelify Sans","Courier New",monospace;font-weight:600;font-size:1rem;letter-spacing:.02em;cursor:pointer;border:0;
+  background:var(--red);color:var(--on-red);padding:7px 14px 9px;margin:3px;
+  box-shadow:0 -3px 0 0 var(--edge),0 3px 0 0 var(--edge),-3px 0 0 0 var(--edge),3px 0 0 0 var(--edge),inset 0 -4px 0 0 rgba(0,0,0,.22)}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:translateY(2px);box-shadow:0 -3px 0 0 var(--edge),0 3px 0 0 var(--edge),-3px 0 0 0 var(--edge),3px 0 0 0 var(--edge),inset 0 -1px 0 0 rgba(0,0,0,.22)}
+.btn.ghosty{background:var(--paper);color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:default;filter:none;transform:none}
+.btn.armed,.txtbtn.armed{background:var(--red);color:var(--on-red);text-decoration:none}
+.txtbtn{background:none;border:0;padding:4px 6px;cursor:pointer;color:var(--ink);font-size:.88rem;text-decoration:underline;text-decoration-color:var(--orange);text-decoration-thickness:2px;text-underline-offset:3px}
+.icon{width:30px;height:30px;display:grid;place-items:center;background:none;border:0;cursor:pointer;color:var(--muted);flex:none}
 .icon:hover{background:var(--rule);color:var(--ink)}
+.icon:disabled{opacity:.35;cursor:default;background:none}
 .icon svg{width:16px;height:16px}
 
-.board{display:flex;gap:22px;overflow-x:auto;overflow-y:hidden;padding:26px 26px 22px;min-height:0;align-items:stretch}
-.board.hot{background:repeating-linear-gradient(135deg,transparent 0 14px,color-mix(in srgb,var(--mark) 22%,transparent) 14px 16px)}
+.editbar{flex:none;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 12px;padding:12px 20px;
+  background:var(--paper);border-bottom:4px solid var(--edge);text-align:center}
+.editbar[hidden]{display:none}
+.editbar .msg{font-size:.95rem;flex-basis:100%}
+.editbar .msg strong{color:var(--red)}
 
-.bucket{flex:0 0 326px;display:flex;flex-direction:column;background:var(--card);border-radius:3px 3px 10px 10px;
-  position:relative;max-height:100%;box-shadow:0 1px 0 var(--line),0 16px 30px -24px var(--shadow)}
-.bucket::before{content:"";position:absolute;top:0;bottom:0;left:40px;width:1.5px;background:var(--margin);opacity:.5;pointer-events:none;z-index:1}
-.bucket.mine::after{content:"";position:absolute;top:-9px;left:50%;width:88px;height:20px;transform:translateX(-50%) rotate(-2.5deg);
-  background:var(--mark);opacity:.9;pointer-events:none;border-radius:1px}
-.bh{padding:18px 10px 10px 52px;border-bottom:2px solid var(--ink)}
-.bh h2,.title-in{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.45rem;line-height:1.05;letter-spacing:-.02em;margin:0}
-.title-in{width:100%;border:0;background:transparent;padding:2px 0;border-bottom:1px dashed transparent}
+.main{flex:1;display:grid;grid-template-columns:300px 1fr;min-height:0}
+
+/* Sidebar: the village notice board */
+aside{overflow-y:auto;padding:22px 20px 30px 18px;border-right:4px solid var(--edge);
+  background:repeating-linear-gradient(0deg,var(--wood) 0 22px,var(--wood-dark) 22px 24px)}
+.noticeboard{background:var(--paper);padding:16px 12px 18px;margin:4px 4px 12px}
+.nb-title{margin:0 0 12px;text-align:center;font-family:"Pixelify Sans","Courier New",monospace;font-weight:700;font-size:1.2rem}
+.search{width:100%;padding:9px 11px;border:3px solid var(--edge);background:var(--cream);color:#3A2418;border-radius:0}
+.search::placeholder{color:#7A5A45}
+.group{margin-top:20px}
+.group h2{font-family:"Pixelify Sans","Courier New",monospace;font-weight:600;font-size:1.05rem;margin:0 0 6px 2px;color:var(--muted)}
+.side{list-style:none;margin:0;padding:0}
+.side-list{display:flex;align-items:center;position:relative}
+.side-list .grip{width:20px;flex:none;align-self:stretch}
+.side-list .open{flex:1;display:flex;align-items:center;gap:9px;text-align:left;background:none;border:0;padding:7px 8px 7px 2px;cursor:pointer;min-width:0}
+.side-list .open .emoji{font-size:1.1rem;width:1.3rem;text-align:center;flex:none}
+.side-list .open .t{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side-list .open .n{color:var(--muted);font-size:.85rem;flex:none;font-family:"Pixelify Sans","Courier New",monospace}
+.side-list:hover,.side-list.on{background:var(--rule)}
+.side-list.on::before{content:"";position:absolute;left:-12px;top:50%;width:8px;height:8px;margin-top:-4px;background:var(--red);box-shadow:0 0 0 2px var(--edge)}
+.side-list.on .t{font-weight:700}
+.empty-note{color:var(--muted);font-size:.92rem;margin:4px 2px 10px}
+
+/* Board and list "shops" */
+.board{display:flex;gap:30px;overflow-x:auto;overflow-y:hidden;padding:30px 32px 28px;min-height:0;align-items:stretch}
+.board.hot{background:repeating-linear-gradient(135deg,transparent 0 14px,color-mix(in srgb,var(--saffron) 30%,transparent) 14px 18px)}
+.bucket{--aw:var(--red);flex:0 0 330px;display:flex;flex-direction:column;background:var(--paper);position:relative;
+  max-height:calc(100% - 8px);margin:4px 4px 8px}
+.bucket.mine{--aw:var(--orange)}
+.editing .bucket.starter{outline:3px dashed var(--red);outline-offset:10px}
+.awning{height:22px;flex:none;position:relative;z-index:2;background:repeating-linear-gradient(90deg,var(--aw) 0 22px,var(--cream) 22px 44px)}
+.awning::after{content:"";position:absolute;left:0;right:0;top:100%;height:10px;
+  background:radial-gradient(circle at 11px 0,var(--aw) 10px,transparent 10.5px) 0 0/44px 10px repeat-x,
+             radial-gradient(circle at 33px 0,var(--cream) 10px,transparent 10.5px) 0 0/44px 10px repeat-x}
+.bh{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:center;padding:20px 12px 10px 14px;border-bottom:4px solid var(--edge)}
+.lic{grid-row:1/3;display:grid;place-items:center;font-size:1.9rem;width:54px;height:54px;padding:0;border:0;background:var(--cream);
+  box-shadow:inset 0 0 0 3px var(--edge)}
+button.lic{cursor:pointer}
+button.lic:hover{background:var(--saffron)}
+.bh h2,.title-in{font-family:"Pixelify Sans","Courier New",monospace;font-weight:700;font-size:1.4rem;line-height:1.05;margin:0;align-self:end}
+.title-in{width:100%;border:0;background:transparent;padding:2px 0;border-bottom:2px dashed transparent;border-radius:0}
 .title-in:hover,.title-in:focus{border-bottom-color:var(--line);outline:none}
 .title-in::placeholder{color:var(--muted);opacity:.7}
-.meta{margin:4px 0 0;color:var(--muted);font-size:.85rem}
-.bacts{display:flex;align-items:center;justify-content:space-between;margin-top:8px;margin-left:-6px}
+.meta{margin:2px 0 0;color:var(--muted);font-size:.85rem;align-self:start}
+.bacts{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:4px;margin:10px 0 0 -6px}
+.bacts .l{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
 .items{list-style:none;margin:0;padding:0;overflow-y:auto;flex:1;min-height:60px;overscroll-behavior:contain}
-.item{display:flex;align-items:flex-start;gap:4px;padding:7px 8px 7px 0;border-bottom:1px solid var(--rule);min-height:42px;background:var(--card)}
-.grip{width:40px;flex:none;display:grid;place-items:center;align-self:stretch;color:var(--muted);cursor:grab;touch-action:none;opacity:.55}
+.item{display:flex;align-items:flex-start;gap:4px;padding:7px 8px 7px 0;border-bottom:2px solid var(--rule);min-height:42px;background:var(--paper)}
+.grip{width:36px;flex:none;display:grid;place-items:center;align-self:stretch;color:var(--muted);cursor:grab;touch-action:none;opacity:.55}
 .grip svg{width:10px;height:16px}
 .item:hover .grip,.side-list:hover .grip{opacity:1}
-.chk{margin:4px 2px 0 8px;width:17px;height:17px;accent-color:var(--ink);flex:none}
+.chk{appearance:none;-webkit-appearance:none;margin:3px 2px 0 4px;width:18px;height:18px;flex:none;cursor:pointer;background:var(--cream);box-shadow:inset 0 0 0 3px var(--edge)}
+.chk:checked{background:var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath fill='%23FFF1DC' d='M6 2h1v1H6zM5 3h1v1H5zM4 4h1v1H4zM3 5h1v1H3zM2 4h1v1H2z'/%3E%3C/svg%3E") center/100% no-repeat}
 .txt{flex:1;padding:2px 2px 2px 8px;overflow-wrap:anywhere}
-.item.done .txt{text-decoration:line-through;text-decoration-color:var(--margin);color:var(--muted)}
-.txt mark,.side-list mark{background:var(--mark);color:var(--mark-ink);border-radius:2px;padding:0 1px}
-.acts{display:flex;gap:0;opacity:0}
+.item.done .txt{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px;color:var(--muted)}
+.txt mark,.side-list mark{background:var(--mark);color:var(--mark-ink);padding:0 1px}
+.acts{display:flex;opacity:0}
 .item:hover .acts,.item:focus-within .acts{opacity:1}
 @media (hover:none){.acts{opacity:1}}
-.item.flash{animation:flash 1.2s ease}
-@keyframes flash{0%,40%{background:var(--mark)}100%{background:var(--card)}}
-.items .blank{padding:22px 14px 22px 52px;color:var(--muted);font-size:.92rem;border:0}
-.add{display:flex;gap:6px;padding:10px 10px 12px 48px;border-top:1px solid var(--rule)}
-.add input{flex:1;min-width:0;border:1px solid var(--line);border-radius:7px;padding:7px 10px;background:transparent}
-.add button{border:0;background:var(--ink);color:var(--card);border-radius:7px;padding:7px 12px;font-weight:700;cursor:pointer}
+.item.flash{animation:flash 1.2s steps(6)}
+@keyframes flash{0%,40%{background:var(--mark)}100%{background:var(--paper)}}
+.items .blank{padding:22px 16px;color:var(--muted);font-size:.92rem;border:0}
+.add{display:flex;gap:6px;padding:12px 12px 14px;border-top:4px solid var(--edge);align-items:center}
+.add input{flex:1;min-width:0;border:3px solid var(--edge);padding:6px 9px;background:var(--cream);color:#3A2418;border-radius:0}
+.add input::placeholder{color:#7A5A45}
+.add .btn{padding:5px 12px 7px}
 
-.new-drop{flex:0 0 250px;border:2px dashed var(--line);border-radius:10px;display:flex;flex-direction:column;justify-content:center;
-  align-items:flex-start;gap:10px;padding:26px;color:var(--muted)}
-.new-drop h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.45rem;letter-spacing:-.02em;color:var(--ink);margin:0}
+.new-drop{flex:0 0 250px;border:4px dashed var(--wood);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:10px;
+  padding:26px;color:var(--muted);background:color-mix(in srgb,var(--paper) 55%,transparent);margin:4px}
+.new-drop h2{font-family:"Pixelify Sans","Courier New",monospace;font-weight:700;font-size:1.4rem;color:var(--ink);margin:0}
 .new-drop p{margin:0}
-.new-drop.hot{border-color:var(--ink);border-style:solid;background:var(--mark);color:var(--mark-ink)}
+.new-drop.hot{border-style:solid;border-color:var(--edge);background:var(--mark);color:var(--mark-ink)}
 .new-drop.hot h2{color:var(--mark-ink)}
 
-.bucket.hot{outline:3px solid var(--mark);outline-offset:3px}
+.bucket.hot{outline:4px solid var(--saffron);outline-offset:8px}
 .bucket.nope{opacity:.6}
-.placeholder{height:0;border-top:4px solid var(--mark);margin:-2px 10px -2px 44px;list-style:none;border-radius:2px;position:relative;z-index:2}
+.placeholder{height:0;border-top:4px solid var(--orange);margin:-2px 10px -2px 36px;list-style:none;position:relative;z-index:2}
 .is-source{opacity:.35}
 body.dragging{cursor:grabbing;user-select:none;-webkit-user-select:none}
 body.dragging .board{scroll-snap-type:none}
-.ghost{position:fixed;left:0;top:0;z-index:50;pointer-events:none;background:var(--card);color:var(--ink);border:1px solid var(--line);
-  border-radius:8px;padding:9px 12px;max-width:280px;box-shadow:0 18px 36px -14px var(--shadow);transform-origin:0 0}
+.ghost{position:fixed;left:0;top:0;z-index:50;pointer-events:none;background:var(--paper);color:var(--ink);padding:9px 12px;max-width:280px;
+  box-shadow:0 -3px 0 0 var(--edge),0 3px 0 0 var(--edge),-3px 0 0 0 var(--edge),3px 0 0 0 var(--edge),7px 7px 0 0 var(--drop)}
 .ghost .hint{display:block;margin-top:4px;font-size:.8rem;color:var(--muted)}
 .ghost .hint:empty{display:none}
 
-#menu{position:fixed;z-index:60;min-width:210px;max-width:280px;max-height:60vh;overflow:auto;background:var(--card);border:1px solid var(--line);
-  border-radius:10px;padding:6px;box-shadow:0 20px 40px -18px var(--shadow)}
+#menu{position:fixed;z-index:60;min-width:210px;max-width:300px;max-height:60vh;overflow:auto;background:var(--paper);padding:6px;
+  box-shadow:0 -3px 0 0 var(--edge),0 3px 0 0 var(--edge),-3px 0 0 0 var(--edge),3px 0 0 0 var(--edge),7px 7px 0 0 var(--drop)}
 #menu[hidden]{display:none}
-#menu .mh{margin:4px 8px 6px;font-size:.82rem;color:var(--muted)}
-#menu button{display:block;width:100%;text-align:left;background:none;border:0;padding:8px 10px;border-radius:6px;cursor:pointer}
-#menu button:hover,#menu button:focus-visible{background:var(--rule)}
-#menu button.newl{font-weight:700}
+#menu .mh{margin:6px 8px 4px;font-size:.9rem;color:var(--muted);font-family:"Pixelify Sans","Courier New",monospace}
+#menu .row{display:block;width:100%;text-align:left;background:none;border:0;padding:8px 10px;cursor:pointer}
+#menu .row:hover,#menu .row:focus-visible{background:var(--rule)}
+#menu .row.newl{font-weight:700;color:var(--red)}
+#menu .grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;padding:2px}
+#menu .pick{font-size:1.3rem;aspect-ratio:1;border:0;background:none;cursor:pointer}
+#menu .pick:hover,#menu .pick:focus-visible{background:var(--rule)}
+#menu form{display:flex;gap:6px;padding:8px 4px 4px;align-items:center}
+#menu form input{flex:1;min-width:0;border:3px solid var(--edge);padding:5px 8px;background:var(--cream);color:#3A2418;border-radius:0}
+#menu form .btn{padding:4px 10px 6px}
 
-#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;
-  background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:9px;z-index:70;transition:opacity .2s,transform .2s;max-width:min(92vw,480px);pointer-events:none}
+#toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;z-index:70;
+  background:var(--wood-dark);color:var(--cream);padding:10px 16px;max-width:min(92vw,480px);pointer-events:none;text-align:center;
+  box-shadow:0 -3px 0 0 var(--edge),0 3px 0 0 var(--edge),-3px 0 0 0 var(--edge),3px 0 0 0 var(--edge);transition:opacity .2s,transform .2s}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 
 @media (max-width:760px){
-  .top{padding:16px 16px 14px;align-items:center}
-  .lead{font-size:.93rem}
-  .browse-btn{display:inline-flex;flex:none}
+  .top{padding:16px 12px 60px}
+  .lead{font-size:.9rem}
+  .browse-btn{display:inline-block!important}
   .main{grid-template-columns:1fr;grid-template-rows:auto 1fr}
-  aside{display:none;border-right:0;border-bottom:1px solid var(--line);max-height:52vh}
+  aside{display:none;border-right:0;border-bottom:4px solid var(--edge);max-height:55vh}
   .app.browse aside{display:block}
-  .board{padding:22px 16px 16px;gap:14px;scroll-snap-type:x mandatory}
-  .bucket{flex-basis:86vw;scroll-snap-align:center}
+  .board{padding:24px 18px 18px;gap:18px;scroll-snap-type:x mandatory}
+  .bucket{flex-basis:84vw;scroll-snap-align:center}
   .new-drop{flex-basis:70vw;scroll-snap-align:center}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.k-smoke{opacity:0}}
 </style>
 </head>
 <body>
 <div class="app" id="app">
   <header class="top">
-    <div>
-      <h1>List of lists</h1>
-      <p class="lead">Every list worth keeping, in one place. Open a list, then drag anything into a list of your own. Your lists are saved in this browser.</p>
-    </div>
-    <button class="btn ghosty browse-btn" data-act="browse" aria-expanded="false" aria-controls="sidebar">Browse lists</button>
+    <svg class="scene" viewBox="0 0 480 120" preserveAspectRatio="xMidYMax slice" shape-rendering="crispEdges" aria-hidden="true"><rect x="70" y="40" width="24" height="4" class="k-cloud"/><rect x="74" y="36" width="12" height="4" class="k-cloud"/><rect x="66" y="44" width="34" height="4" class="k-cloud"/><rect x="250" y="34" width="24" height="4" class="k-cloud"/><rect x="254" y="30" width="12" height="4" class="k-cloud"/><rect x="246" y="38" width="34" height="4" class="k-cloud"/><rect x="400" y="44" width="24" height="4" class="k-cloud"/><rect x="404" y="40" width="12" height="4" class="k-cloud"/><rect x="396" y="48" width="34" height="4" class="k-cloud"/><rect x="170" y="52" width="24" height="4" class="k-cloud"/><rect x="174" y="48" width="12" height="4" class="k-cloud"/><rect x="166" y="56" width="34" height="4" class="k-cloud"/><rect x="330" y="56" width="24" height="4" class="k-cloud"/><rect x="334" y="52" width="12" height="4" class="k-cloud"/><rect x="326" y="60" width="34" height="4" class="k-cloud"/><path d="M0 120 L0 90 L8 90 L8 92 L16 92 L16 92 L24 92 L24 94 L32 94 L32 94 L40 94 L40 96 L48 96 L48 96 L56 96 L56 96 L64 96 L64 96 L72 96 L72 96 L80 96 L80 96 L88 96 L88 94 L96 94 L96 94 L104 94 L104 94 L112 94 L112 92 L120 92 L120 90 L128 90 L128 90 L136 90 L136 88 L144 88 L144 88 L152 88 L152 86 L160 86 L160 86 L168 86 L168 84 L176 84 L176 84 L184 84 L184 84 L192 84 L192 84 L200 84 L200 84 L208 84 L208 84 L216 84 L216 86 L224 86 L224 86 L232 86 L232 88 L240 88 L240 88 L248 88 L248 90 L256 90 L256 90 L264 90 L264 92 L272 92 L272 92 L280 92 L280 94 L288 94 L288 94 L296 94 L296 96 L304 96 L304 96 L312 96 L312 96 L320 96 L320 96 L328 96 L328 96 L336 96 L336 96 L344 96 L344 94 L352 94 L352 94 L360 94 L360 92 L368 92 L368 92 L376 92 L376 90 L384 90 L384 88 L392 88 L392 88 L400 88 L400 86 L408 86 L408 86 L416 86 L416 86 L424 86 L424 84 L432 84 L432 84 L440 84 L440 84 L448 84 L448 84 L456 84 L456 84 L464 84 L464 86 L472 86 L472 86 L480 86 L480 86 L488 86 L480 120 Z" class="k-hill1"/><rect x="12" y="86" width="30" height="18" class="k-wall"/><rect x="34" y="74" width="4" height="8" class="k-dark"/><rect x="34" y="68" width="4" height="4" class="k-smoke" style="animation-delay:0.0s"/><rect x="36" y="62" width="4" height="4" class="k-smoke" style="animation-delay:0.5s"/><rect x="34" y="56" width="4" height="4" class="k-smoke" style="animation-delay:1.0s"/><rect x="9" y="84" width="36" height="2" class="k-dark"/><rect x="11" y="82" width="32" height="2" class="k-roof1"/><rect x="13" y="80" width="28" height="2" class="k-roof1"/><rect x="15" y="78" width="24" height="2" class="k-roof1"/><rect x="17" y="76" width="20" height="2" class="k-roof1"/><rect x="19" y="74" width="16" height="2" class="k-roof1"/><rect x="21" y="72" width="12" height="2" class="k-roof1"/><rect x="23" y="70" width="8" height="2" class="k-roof1"/><rect x="25" y="68" width="4" height="2" class="k-roof1"/><rect x="24" y="94" width="6" height="10" class="k-dark"/><rect x="16" y="90" width="6" height="6" class="k-win"/><rect x="32" y="90" width="6" height="6" class="k-win"/><rect x="54" y="86" width="26" height="18" class="k-wall"/><rect x="72" y="74" width="4" height="8" class="k-dark"/><rect x="72" y="68" width="4" height="4" class="k-smoke" style="animation-delay:0.7s"/><rect x="74" y="62" width="4" height="4" class="k-smoke" style="animation-delay:1.2s"/><rect x="72" y="56" width="4" height="4" class="k-smoke" style="animation-delay:1.7s"/><rect x="51" y="84" width="32" height="2" class="k-dark"/><rect x="53" y="82" width="28" height="2" class="k-roof2"/><rect x="55" y="80" width="24" height="2" class="k-roof2"/><rect x="57" y="78" width="20" height="2" class="k-roof2"/><rect x="59" y="76" width="16" height="2" class="k-roof2"/><rect x="61" y="74" width="12" height="2" class="k-roof2"/><rect x="63" y="72" width="8" height="2" class="k-roof2"/><rect x="65" y="70" width="4" height="2" class="k-roof2"/><rect x="64" y="94" width="6" height="10" class="k-dark"/><rect x="58" y="90" width="6" height="6" class="k-win"/><rect x="92" y="86" width="32" height="18" class="k-wall"/><rect x="116" y="74" width="4" height="8" class="k-dark"/><rect x="116" y="68" width="4" height="4" class="k-smoke" style="animation-delay:1.4s"/><rect x="118" y="62" width="4" height="4" class="k-smoke" style="animation-delay:1.9s"/><rect x="116" y="56" width="4" height="4" class="k-smoke" style="animation-delay:2.4s"/><rect x="89" y="84" width="38" height="2" class="k-dark"/><rect x="91" y="82" width="34" height="2" class="k-roof3"/><rect x="93" y="80" width="30" height="2" class="k-roof3"/><rect x="95" y="78" width="26" height="2" class="k-roof3"/><rect x="97" y="76" width="22" height="2" class="k-roof3"/><rect x="99" y="74" width="18" height="2" class="k-roof3"/><rect x="101" y="72" width="14" height="2" class="k-roof3"/><rect x="103" y="70" width="10" height="2" class="k-roof3"/><rect x="105" y="68" width="6" height="2" class="k-roof3"/><rect x="105" y="94" width="6" height="10" class="k-dark"/><rect x="96" y="90" width="6" height="6" class="k-win"/><rect x="114" y="90" width="6" height="6" class="k-win"/><rect x="352" y="86" width="28" height="18" class="k-wall"/><rect x="372" y="74" width="4" height="8" class="k-dark"/><rect x="372" y="68" width="4" height="4" class="k-smoke" style="animation-delay:2.0999999999999996s"/><rect x="374" y="62" width="4" height="4" class="k-smoke" style="animation-delay:2.5999999999999996s"/><rect x="372" y="56" width="4" height="4" class="k-smoke" style="animation-delay:3.0999999999999996s"/><rect x="349" y="84" width="34" height="2" class="k-dark"/><rect x="351" y="82" width="30" height="2" class="k-roof2"/><rect x="353" y="80" width="26" height="2" class="k-roof2"/><rect x="355" y="78" width="22" height="2" class="k-roof2"/><rect x="357" y="76" width="18" height="2" class="k-roof2"/><rect x="359" y="74" width="14" height="2" class="k-roof2"/><rect x="361" y="72" width="10" height="2" class="k-roof2"/><rect x="363" y="70" width="6" height="2" class="k-roof2"/><rect x="363" y="94" width="6" height="10" class="k-dark"/><rect x="356" y="90" width="6" height="6" class="k-win"/><rect x="392" y="86" width="32" height="18" class="k-wall"/><rect x="416" y="74" width="4" height="8" class="k-dark"/><rect x="416" y="68" width="4" height="4" class="k-smoke" style="animation-delay:2.8s"/><rect x="418" y="62" width="4" height="4" class="k-smoke" style="animation-delay:3.3s"/><rect x="416" y="56" width="4" height="4" class="k-smoke" style="animation-delay:3.8s"/><rect x="389" y="84" width="38" height="2" class="k-dark"/><rect x="391" y="82" width="34" height="2" class="k-roof1"/><rect x="393" y="80" width="30" height="2" class="k-roof1"/><rect x="395" y="78" width="26" height="2" class="k-roof1"/><rect x="397" y="76" width="22" height="2" class="k-roof1"/><rect x="399" y="74" width="18" height="2" class="k-roof1"/><rect x="401" y="72" width="14" height="2" class="k-roof1"/><rect x="403" y="70" width="10" height="2" class="k-roof1"/><rect x="405" y="68" width="6" height="2" class="k-roof1"/><rect x="405" y="94" width="6" height="10" class="k-dark"/><rect x="396" y="90" width="6" height="6" class="k-win"/><rect x="414" y="90" width="6" height="6" class="k-win"/><rect x="438" y="86" width="26" height="18" class="k-wall"/><rect x="456" y="74" width="4" height="8" class="k-dark"/><rect x="456" y="68" width="4" height="4" class="k-smoke" style="animation-delay:3.5s"/><rect x="458" y="62" width="4" height="4" class="k-smoke" style="animation-delay:4.0s"/><rect x="456" y="56" width="4" height="4" class="k-smoke" style="animation-delay:4.5s"/><rect x="435" y="84" width="32" height="2" class="k-dark"/><rect x="437" y="82" width="28" height="2" class="k-roof3"/><rect x="439" y="80" width="24" height="2" class="k-roof3"/><rect x="441" y="78" width="20" height="2" class="k-roof3"/><rect x="443" y="76" width="16" height="2" class="k-roof3"/><rect x="445" y="74" width="12" height="2" class="k-roof3"/><rect x="447" y="72" width="8" height="2" class="k-roof3"/><rect x="449" y="70" width="4" height="2" class="k-roof3"/><rect x="448" y="94" width="6" height="10" class="k-dark"/><rect x="442" y="90" width="6" height="6" class="k-win"/><rect x="144" y="98" width="2" height="8" class="k-dark"/><rect x="140" y="90" width="10" height="8" class="k-leaf"/><rect x="142" y="86" width="6" height="4" class="k-leaf"/><rect x="180" y="98" width="2" height="8" class="k-dark"/><rect x="176" y="90" width="10" height="8" class="k-leaf"/><rect x="178" y="86" width="6" height="4" class="k-leaf"/><rect x="300" y="98" width="2" height="8" class="k-dark"/><rect x="296" y="90" width="10" height="8" class="k-leaf"/><rect x="298" y="86" width="6" height="4" class="k-leaf"/><rect x="326" y="98" width="2" height="8" class="k-dark"/><rect x="322" y="90" width="10" height="8" class="k-leaf"/><rect x="324" y="86" width="6" height="4" class="k-leaf"/><path d="M0 120 L0 108 L8 108 L8 108 L16 108 L16 108 L24 108 L24 108 L32 108 L32 108 L40 108 L40 106 L48 106 L48 106 L56 106 L56 104 L64 104 L64 104 L72 104 L72 102 L80 102 L80 102 L88 102 L88 100 L96 100 L96 100 L104 100 L104 100 L112 100 L112 100 L120 100 L120 100 L128 100 L128 102 L136 102 L136 102 L144 102 L144 104 L152 104 L152 104 L160 104 L160 106 L168 106 L168 106 L176 106 L176 108 L184 108 L184 108 L192 108 L192 108 L200 108 L200 108 L208 108 L208 108 L216 108 L216 106 L224 106 L224 106 L232 106 L232 104 L240 104 L240 104 L248 104 L248 102 L256 102 L256 102 L264 102 L264 100 L272 100 L272 100 L280 100 L280 100 L288 100 L288 100 L296 100 L296 100 L304 100 L304 102 L312 102 L312 102 L320 102 L320 104 L328 104 L328 104 L336 104 L336 106 L344 106 L344 106 L352 106 L352 108 L360 108 L360 108 L368 108 L368 108 L376 108 L376 108 L384 108 L384 108 L392 108 L392 106 L400 106 L400 106 L408 106 L408 104 L416 104 L416 104 L424 104 L424 102 L432 102 L432 102 L440 102 L440 100 L448 100 L448 100 L456 100 L456 100 L464 100 L464 100 L472 100 L472 100 L480 100 L480 102 L488 102 L480 120 Z" class="k-hill2"/><rect x="8" y="114" width="2" height="2" class="k-flower2"/><rect x="30" y="114" width="2" height="2" class="k-flower"/><rect x="52" y="112" width="2" height="2" class="k-flower2"/><rect x="74" y="108" width="2" height="2" class="k-flower"/><rect x="96" y="106" width="2" height="2" class="k-flower2"/><rect x="118" y="106" width="2" height="2" class="k-flower"/><rect x="140" y="108" width="2" height="2" class="k-flower2"/><rect x="162" y="112" width="2" height="2" class="k-flower"/><rect x="184" y="114" width="2" height="2" class="k-flower2"/><rect x="206" y="114" width="2" height="2" class="k-flower"/><rect x="228" y="112" width="2" height="2" class="k-flower2"/><rect x="250" y="108" width="2" height="2" class="k-flower"/><rect x="272" y="106" width="2" height="2" class="k-flower2"/><rect x="294" y="106" width="2" height="2" class="k-flower"/><rect x="316" y="108" width="2" height="2" class="k-flower2"/><rect x="338" y="112" width="2" height="2" class="k-flower"/><rect x="360" y="114" width="2" height="2" class="k-flower2"/><rect x="382" y="114" width="2" height="2" class="k-flower"/><rect x="404" y="112" width="2" height="2" class="k-flower2"/><rect x="426" y="108" width="2" height="2" class="k-flower"/><rect x="448" y="106" width="2" height="2" class="k-flower2"/><rect x="470" y="106" width="2" height="2" class="k-flower"/></svg>
+    <div class="sign px"><h1>List of lists</h1></div>
+    <p class="lead px">A little village of lists. Open any list, then drag what you like into lists of your own. Your lists are saved in this browser.</p>
+    <button class="btn browse-btn" data-act="browse" aria-expanded="false" aria-controls="sidebar">Browse lists</button>
   </header>
+  <div class="editbar" id="editbar" hidden>
+    <span class="msg" id="editmsg"></span>
+    <button class="btn ghosty" data-act="new-starter">New starter list</button>
+    <button class="btn ghosty" data-act="discard" id="discardBtn">Discard changes</button>
+    <button class="btn" data-act="download" id="downloadBtn">Download updated site</button>
+    <a class="txtbtn" id="leaveEdit" href="./">Leave edit mode</a>
+  </div>
   <div class="main">
     <aside id="sidebar" aria-label="All lists">
-      <label class="sr" for="q">Search lists and items</label>
-      <input id="q" class="search" type="search" placeholder="Search lists and items" autocomplete="off">
-      <div id="sideLists"></div>
+      <div class="noticeboard px">
+        <p class="nb-title">Notice board</p>
+        <label class="sr" for="q">Search lists and items</label>
+        <input id="q" class="search" type="search" placeholder="Search lists and items" autocomplete="off">
+        <div id="sideLists"></div>
+      </div>
     </aside>
     <main class="board" id="board" aria-label="Open lists"></main>
   </div>
 </div>
-<div id="menu" role="menu" hidden></div>
+<div id="menu" hidden></div>
 <div id="toast" role="status" aria-live="polite"></div>
 
-<script>
-const STARTERS = [
- {t:"Life essentials", i:["1 pillow + 2–3 sets of pillowcases","1 mattress + 2–3 sets of sheets","1 cover-up or duvet + 2 covers","1 toothbrush + 1 toothpaste","Toilet paper","1 of each: face wash, hand wash, body wash, shampoo, conditioner","1 hair oil","1 of each: vitamin C, moisturizer, sunscreen, retinol","5–7 face/hand towels + 5–7 body towels","2 toilet/bath rugs","1 pair of home slippers","7–10 pairs of good socks","1 bathrobe","7 pairs of loungewear","5 pairs of workout gear","1 good pair of sports shoes","1 good water bottle for daily use","1 big water bottle for home/travel","First-aid kit"]},
- {t:"Backpack essentials", i:["Laptop + charger","Phone charger + cable","Power bank","Earphones","Water bottle","Notebook + pen","Lip balm","Hand sanitizer","Pocket tissues","Snack bar","Sunglasses","Compact umbrella","Keys","Wallet and ID","Pain reliever","Foldable reusable bag"]},
- {t:"Purse essentials", i:["Wallet with ID and cards","Phone","Keys","Lip balm or lipstick","Compact mirror","Hair ties + bobby pins","Mini hand cream","Mints or gum","Pocket tissues","Hand sanitizer","Pad or tampon","Small pen","Sunglasses","Earbuds","Mini perfume","A few bandages","Mini comb"]},
- {t:"Luggage for travel essentials", i:["Passport + copies of visa and ID","Travel adapter","Chargers + power bank","Toiletry bag (liquids under 100 ml)","Medications for the whole trip","Underwear: 1 per day + 2 extra","Socks: 1 per day + 2 extra","Tops: 1 per 1–2 days","2–3 bottoms","Sleepwear","1 light jacket","Walking shoes + sandals","Swimwear","Packing cubes","Laundry bag","Earplugs + eye mask","Neck pillow","Empty reusable water bottle","Snacks for the journey","Booking confirmations","Small luggage lock"]},
- {t:"Emergency kit (car, home, office)", i:["Water: 1 gallon per person per day, for 3 days","Non-perishable food for 3 days","Flashlight + extra batteries","First-aid kit","Phone charger + power bank","Whistle","Multi-tool","Emergency blanket","Face masks","Cash in small bills","Copies of ID and insurance","7-day supply of prescription meds","Battery or hand-crank radio","Jumper cables (car)","Tire inflator (car)","Rain poncho","Wet wipes","Duct tape","Paper map of the area","Lighter or waterproof matches"]},
- {t:"Restaurants", i:["Katz's Delicatessen, New York","Le Bernardin, New York","Café du Monde, New Orleans","Franklin Barbecue, Austin","Joe's Stone Crab, Miami","Pujol, Mexico City","Osteria Francescana, Modena","El Celler de Can Roca, Girona","Hofbräuhaus, Munich","Sushi Dai, Tokyo","Ichiran, Fukuoka","Din Tai Fung, Taipei","Tim Ho Wan, Hong Kong","Jay Fai, Bangkok","Lau Pa Sat hawker centre, Singapore","Karim's, Delhi","Leopold Café, Mumbai"]},
- {t:"Books", i:["To Kill a Mockingbird, Harper Lee","1984, George Orwell","Pride and Prejudice, Jane Austen","One Hundred Years of Solitude, Gabriel García Márquez","The Great Gatsby, F. Scott Fitzgerald","Beloved, Toni Morrison","Things Fall Apart, Chinua Achebe","The God of Small Things, Arundhati Roy","Norwegian Wood, Haruki Murakami","The Little Prince, Antoine de Saint-Exupéry","The Hobbit, J.R.R. Tolkien","Siddhartha, Hermann Hesse","Man's Search for Meaning, Viktor Frankl","Meditations, Marcus Aurelius","Sapiens, Yuval Noah Harari","Thinking, Fast and Slow, Daniel Kahneman","Atomic Habits, James Clear"]},
- {t:"Food", i:["Ramen","Biryani","Pho","Tacos al pastor","Neapolitan pizza","Dim sum","Croissant","Paella","Pad thai","Masala dosa","Sushi","Shakshuka","Jollof rice","Ceviche","Bibimbap","Gelato","Baklava","Pierogi"]},
- {t:"Museums", i:["The Louvre, Paris","Musée d'Orsay, Paris","British Museum, London","Metropolitan Museum of Art, New York","Museum of Modern Art, New York","National Air and Space Museum, Washington, D.C.","Rijksmuseum, Amsterdam","Uffizi Gallery, Florence","Vatican Museums, Vatican City","Museo del Prado, Madrid","Guggenheim Museum, Bilbao","Acropolis Museum, Athens","Grand Egyptian Museum, Giza","State Hermitage Museum, St. Petersburg","Tokyo National Museum","National Palace Museum, Taipei","National Museum of Anthropology, Mexico City"]},
- {t:"Most versatile fridge", i:["Eggs + tortillas + cheese: breakfast tacos, quesadillas, migas, egg wraps","Rice + frozen peas + eggs + soy sauce: fried rice, egg bowls, congee, omurice","Pasta + canned tomatoes + garlic + parmesan: marinara, arrabbiata, baked pasta, tomato soup","Chickpeas + lemon + tahini + garlic: hummus, chickpea patties, chickpea salad, roasted chickpeas","Greek yogurt + honey + oats + berries: parfait, overnight oats, smoothies, yogurt bark","Chicken thighs + onion + bell peppers + spices: fajitas, stir-fry, sheet-pan roast, curry","Potatoes + onions + eggs: Spanish tortilla, hash, potato salad, aloo sabzi","Bread + butter + cheese + tomatoes: grilled cheese, bruschetta, panzanella, strata","Lentils + onion + tomato + cumin: dal, lentil soup, lentil salad, sloppy joes","Spinach + feta + eggs: omelette, spanakopita bake, salad, stuffed wraps","Coconut milk + curry paste + any vegetable: curry, soup, noodle bowls","Paneer + onion + tomato + spices: paneer bhurji, tikka, butter masala, wraps"]},
- {t:"Countries", i:["Japan","Italy","India","Mexico","Peru","Morocco","Iceland","Portugal","Vietnam","New Zealand","Greece","Türkiye","South Africa","Norway","Thailand","Argentina","Egypt","Canada"]},
- {t:"Hobbies", i:["Reading","Journaling","Cooking","Baking bread","Running","Hiking","Rock climbing","Swimming","Yoga","Pottery","Knitting or crochet","Sketching","Watercolor painting","Photography","Gardening","Learning a language","Playing an instrument","Chess","Board games","Dancing","Birdwatching","Woodworking","Cycling"]},
- {t:"Topics of interest", i:["Astronomy","Psychology","History of empires","Philosophy","Behavioral economics","Personal finance","Nutrition science","Architecture","Linguistics","Neuroscience","Climate and energy","Artificial intelligence","Mythology","Design","Evolutionary biology","Geopolitics","Recreational math","Art history"]},
- {t:"Movies", i:["Spirited Away","The Godfather","Parasite","Casablanca","Pulp Fiction","The Shawshank Redemption","Seven Samurai","In the Mood for Love","Amélie","3 Idiots","Lagaan","City of God","Before Sunrise","Inception","The Dark Knight","Whiplash","Coco","Everything Everywhere All at Once"]},
- {t:"Shows", i:["Breaking Bad","Better Call Saul","The Wire","The Office (US)","Friends","Gilmore Girls","Game of Thrones","Succession","Fleabag","Sherlock","Dark","Chernobyl","Ted Lasso","Severance","Squid Game","Planet Earth","Avatar: The Last Airbender","Attack on Titan"]},
- {t:"Comic artists", i:["Osamu Tezuka","Hayao Miyazaki","Katsuhiro Otomo","Rumiko Takahashi","Akira Toriyama","Naoki Urasawa","Takehiko Inoue","Junji Ito","Hergé","Moebius","Jack Kirby","Frank Miller","Charles M. Schulz","Bill Watterson","Art Spiegelman","Marjane Satrapi","Alison Bechdel","Chris Ware"]},
- {t:"Comics or manga", i:["Maus","Persepolis","Watchmen","The Sandman","Saga","Fun Home","Blankets","Calvin and Hobbes","The Adventures of Tintin","Akira","Monster","Pluto","Vagabond","Slam Dunk","One Piece","Berserk","Nausicaä of the Valley of the Wind"]}
-];
-const starters = STARTERS.map((l,i)=>({id:"s"+i,title:l.t,items:l.i.map((text,j)=>({id:`s${i}-${j}`,text}))}));
+<!-- Starter lists. Edit these through the site's edit mode (add ?edit to the address), then download and upload the new file. -->
+<script id="starter-data" type="application/json">[
+ {
+  "id": "s-life-essentials",
+  "icon": "🛏️",
+  "title": "Life essentials",
+  "items": [
+   "1 pillow + 2–3 sets of pillowcases",
+   "1 mattress + 2–3 sets of sheets",
+   "1 cover-up or duvet + 2 covers",
+   "1 toothbrush + 1 toothpaste",
+   "Toilet paper",
+   "1 of each: face wash, hand wash, body wash, shampoo, conditioner",
+   "1 hair oil",
+   "1 of each: vitamin C, moisturizer, sunscreen, retinol",
+   "5–7 face/hand towels + 5–7 body towels",
+   "2 toilet/bath rugs",
+   "1 pair of home slippers",
+   "7–10 pairs of good socks",
+   "1 bathrobe",
+   "7 pairs of loungewear",
+   "5 pairs of workout gear",
+   "1 good pair of sports shoes",
+   "1 good water bottle for daily use",
+   "1 big water bottle for home/travel",
+   "First-aid kit"
+  ]
+ },
+ {
+  "id": "s-backpack",
+  "icon": "🎒",
+  "title": "Backpack essentials",
+  "items": [
+   "Laptop + charger",
+   "Phone charger + cable",
+   "Power bank",
+   "Earphones",
+   "Water bottle",
+   "Notebook + pen",
+   "Lip balm",
+   "Hand sanitizer",
+   "Pocket tissues",
+   "Snack bar",
+   "Sunglasses",
+   "Compact umbrella",
+   "Keys",
+   "Wallet and ID",
+   "Pain reliever",
+   "Foldable reusable bag"
+  ]
+ },
+ {
+  "id": "s-purse",
+  "icon": "👛",
+  "title": "Purse essentials",
+  "items": [
+   "Wallet with ID and cards",
+   "Phone",
+   "Keys",
+   "Lip balm or lipstick",
+   "Compact mirror",
+   "Hair ties + bobby pins",
+   "Mini hand cream",
+   "Mints or gum",
+   "Pocket tissues",
+   "Hand sanitizer",
+   "Pad or tampon",
+   "Small pen",
+   "Sunglasses",
+   "Earbuds",
+   "Mini perfume",
+   "A few bandages",
+   "Mini comb"
+  ]
+ },
+ {
+  "id": "s-travel-luggage",
+  "icon": "🧳",
+  "title": "Luggage for travel essentials",
+  "items": [
+   "Passport + copies of visa and ID",
+   "Travel adapter",
+   "Chargers + power bank",
+   "Toiletry bag (liquids under 100 ml)",
+   "Medications for the whole trip",
+   "Underwear: 1 per day + 2 extra",
+   "Socks: 1 per day + 2 extra",
+   "Tops: 1 per 1–2 days",
+   "2–3 bottoms",
+   "Sleepwear",
+   "1 light jacket",
+   "Walking shoes + sandals",
+   "Swimwear",
+   "Packing cubes",
+   "Laundry bag",
+   "Earplugs + eye mask",
+   "Neck pillow",
+   "Empty reusable water bottle",
+   "Snacks for the journey",
+   "Booking confirmations",
+   "Small luggage lock"
+  ]
+ },
+ {
+  "id": "s-emergency-kit",
+  "icon": "🧯",
+  "title": "Emergency kit (car, home, office)",
+  "items": [
+   "Water: 1 gallon per person per day, for 3 days",
+   "Non-perishable food for 3 days",
+   "Flashlight + extra batteries",
+   "First-aid kit",
+   "Phone charger + power bank",
+   "Whistle",
+   "Multi-tool",
+   "Emergency blanket",
+   "Face masks",
+   "Cash in small bills",
+   "Copies of ID and insurance",
+   "7-day supply of prescription meds",
+   "Battery or hand-crank radio",
+   "Jumper cables (car)",
+   "Tire inflator (car)",
+   "Rain poncho",
+   "Wet wipes",
+   "Duct tape",
+   "Paper map of the area",
+   "Lighter or waterproof matches"
+  ]
+ },
+ {
+  "id": "s-restaurants",
+  "icon": "🍽️",
+  "title": "Restaurants",
+  "items": [
+   "Katz's Delicatessen, New York",
+   "Le Bernardin, New York",
+   "Café du Monde, New Orleans",
+   "Franklin Barbecue, Austin",
+   "Joe's Stone Crab, Miami",
+   "Pujol, Mexico City",
+   "Osteria Francescana, Modena",
+   "El Celler de Can Roca, Girona",
+   "Hofbräuhaus, Munich",
+   "Sushi Dai, Tokyo",
+   "Ichiran, Fukuoka",
+   "Din Tai Fung, Taipei",
+   "Tim Ho Wan, Hong Kong",
+   "Jay Fai, Bangkok",
+   "Lau Pa Sat hawker centre, Singapore",
+   "Karim's, Delhi",
+   "Leopold Café, Mumbai"
+  ]
+ },
+ {
+  "id": "s-books",
+  "icon": "📚",
+  "title": "Books",
+  "items": [
+   "To Kill a Mockingbird, Harper Lee",
+   "1984, George Orwell",
+   "Pride and Prejudice, Jane Austen",
+   "One Hundred Years of Solitude, Gabriel García Márquez",
+   "The Great Gatsby, F. Scott Fitzgerald",
+   "Beloved, Toni Morrison",
+   "Things Fall Apart, Chinua Achebe",
+   "The God of Small Things, Arundhati Roy",
+   "Norwegian Wood, Haruki Murakami",
+   "The Little Prince, Antoine de Saint-Exupéry",
+   "The Hobbit, J.R.R. Tolkien",
+   "Siddhartha, Hermann Hesse",
+   "Man's Search for Meaning, Viktor Frankl",
+   "Meditations, Marcus Aurelius",
+   "Sapiens, Yuval Noah Harari",
+   "Thinking, Fast and Slow, Daniel Kahneman",
+   "Atomic Habits, James Clear"
+  ]
+ },
+ {
+  "id": "s-food",
+  "icon": "🍜",
+  "title": "Food",
+  "items": [
+   "Ramen",
+   "Biryani",
+   "Pho",
+   "Tacos al pastor",
+   "Neapolitan pizza",
+   "Dim sum",
+   "Croissant",
+   "Paella",
+   "Pad thai",
+   "Masala dosa",
+   "Sushi",
+   "Shakshuka",
+   "Jollof rice",
+   "Ceviche",
+   "Bibimbap",
+   "Gelato",
+   "Baklava",
+   "Pierogi"
+  ]
+ },
+ {
+  "id": "s-museums",
+  "icon": "🏛️",
+  "title": "Museums",
+  "items": [
+   "The Louvre, Paris",
+   "Musée d'Orsay, Paris",
+   "British Museum, London",
+   "Metropolitan Museum of Art, New York",
+   "Museum of Modern Art, New York",
+   "National Air and Space Museum, Washington, D.C.",
+   "Rijksmuseum, Amsterdam",
+   "Uffizi Gallery, Florence",
+   "Vatican Museums, Vatican City",
+   "Museo del Prado, Madrid",
+   "Guggenheim Museum, Bilbao",
+   "Acropolis Museum, Athens",
+   "Grand Egyptian Museum, Giza",
+   "State Hermitage Museum, St. Petersburg",
+   "Tokyo National Museum",
+   "National Palace Museum, Taipei",
+   "National Museum of Anthropology, Mexico City"
+  ]
+ },
+ {
+  "id": "s-versatile-fridge",
+  "icon": "🥕",
+  "title": "Most versatile fridge",
+  "items": [
+   "Eggs + tortillas + cheese: breakfast tacos, quesadillas, migas, egg wraps",
+   "Rice + frozen peas + eggs + soy sauce: fried rice, egg bowls, congee, omurice",
+   "Pasta + canned tomatoes + garlic + parmesan: marinara, arrabbiata, baked pasta, tomato soup",
+   "Chickpeas + lemon + tahini + garlic: hummus, chickpea patties, chickpea salad, roasted chickpeas",
+   "Greek yogurt + honey + oats + berries: parfait, overnight oats, smoothies, yogurt bark",
+   "Chicken thighs + onion + bell peppers + spices: fajitas, stir-fry, sheet-pan roast, curry",
+   "Potatoes + onions + eggs: Spanish tortilla, hash, potato salad, aloo sabzi",
+   "Bread + butter + cheese + tomatoes: grilled cheese, bruschetta, panzanella, strata",
+   "Lentils + onion + tomato + cumin: dal, lentil soup, lentil salad, sloppy joes",
+   "Spinach + feta + eggs: omelette, spanakopita bake, salad, stuffed wraps",
+   "Coconut milk + curry paste + any vegetable: curry, soup, noodle bowls",
+   "Paneer + onion + tomato + spices: paneer bhurji, tikka, butter masala, wraps"
+  ]
+ },
+ {
+  "id": "s-countries",
+  "icon": "🌍",
+  "title": "Countries",
+  "items": [
+   "Japan",
+   "Italy",
+   "India",
+   "Mexico",
+   "Peru",
+   "Morocco",
+   "Iceland",
+   "Portugal",
+   "Vietnam",
+   "New Zealand",
+   "Greece",
+   "Türkiye",
+   "South Africa",
+   "Norway",
+   "Thailand",
+   "Argentina",
+   "Egypt",
+   "Canada"
+  ]
+ },
+ {
+  "id": "s-hobbies",
+  "icon": "🎨",
+  "title": "Hobbies",
+  "items": [
+   "Reading",
+   "Journaling",
+   "Cooking",
+   "Baking bread",
+   "Running",
+   "Hiking",
+   "Rock climbing",
+   "Swimming",
+   "Yoga",
+   "Pottery",
+   "Knitting or crochet",
+   "Sketching",
+   "Watercolor painting",
+   "Photography",
+   "Gardening",
+   "Learning a language",
+   "Playing an instrument",
+   "Chess",
+   "Board games",
+   "Dancing",
+   "Birdwatching",
+   "Woodworking",
+   "Cycling"
+  ]
+ },
+ {
+  "id": "s-topics",
+  "icon": "💡",
+  "title": "Topics of interest",
+  "items": [
+   "Astronomy",
+   "Psychology",
+   "History of empires",
+   "Philosophy",
+   "Behavioral economics",
+   "Personal finance",
+   "Nutrition science",
+   "Architecture",
+   "Linguistics",
+   "Neuroscience",
+   "Climate and energy",
+   "Artificial intelligence",
+   "Mythology",
+   "Design",
+   "Evolutionary biology",
+   "Geopolitics",
+   "Recreational math",
+   "Art history"
+  ]
+ },
+ {
+  "id": "s-movies",
+  "icon": "🎬",
+  "title": "Movies",
+  "items": [
+   "Spirited Away",
+   "The Godfather",
+   "Parasite",
+   "Casablanca",
+   "Pulp Fiction",
+   "The Shawshank Redemption",
+   "Seven Samurai",
+   "In the Mood for Love",
+   "Amélie",
+   "3 Idiots",
+   "Lagaan",
+   "City of God",
+   "Before Sunrise",
+   "Inception",
+   "The Dark Knight",
+   "Whiplash",
+   "Coco",
+   "Everything Everywhere All at Once"
+  ]
+ },
+ {
+  "id": "s-shows",
+  "icon": "📺",
+  "title": "Shows",
+  "items": [
+   "Breaking Bad",
+   "Better Call Saul",
+   "The Wire",
+   "The Office (US)",
+   "Friends",
+   "Gilmore Girls",
+   "Game of Thrones",
+   "Succession",
+   "Fleabag",
+   "Sherlock",
+   "Dark",
+   "Chernobyl",
+   "Ted Lasso",
+   "Severance",
+   "Squid Game",
+   "Planet Earth",
+   "Avatar: The Last Airbender",
+   "Attack on Titan"
+  ]
+ },
+ {
+  "id": "s-comic-artists",
+  "icon": "✏️",
+  "title": "Comic artists",
+  "items": [
+   "Osamu Tezuka",
+   "Hayao Miyazaki",
+   "Katsuhiro Otomo",
+   "Rumiko Takahashi",
+   "Akira Toriyama",
+   "Naoki Urasawa",
+   "Takehiko Inoue",
+   "Junji Ito",
+   "Hergé",
+   "Moebius",
+   "Jack Kirby",
+   "Frank Miller",
+   "Charles M. Schulz",
+   "Bill Watterson",
+   "Art Spiegelman",
+   "Marjane Satrapi",
+   "Alison Bechdel",
+   "Chris Ware"
+  ]
+ },
+ {
+  "id": "s-comics-manga",
+  "icon": "💥",
+  "title": "Comics or manga",
+  "items": [
+   "Maus",
+   "Persepolis",
+   "Watchmen",
+   "The Sandman",
+   "Saga",
+   "Fun Home",
+   "Blankets",
+   "Calvin and Hobbes",
+   "The Adventures of Tintin",
+   "Akira",
+   "Monster",
+   "Pluto",
+   "Vagabond",
+   "Slam Dunk",
+   "One Piece",
+   "Berserk",
+   "Nausicaä of the Valley of the Wind"
+  ]
+ }
+]</script>
 
-const KEY="list-of-lists:v1";
+<script>
+const DATA_EL=document.getElementById("starter-data");
+const SNAPSHOT="<!doctype html>\n"+document.documentElement.outerHTML;
+const BASE=DATA_EL.textContent.trim();
+const BASE_LISTS=JSON.parse(BASE);
+const BASE_NORM=JSON.stringify(BASE_LISTS);
+const EDIT=/\bedit\b/.test(location.search+location.hash);
+
+const KEY="list-of-lists:v1",DKEY="list-of-lists:publisher-draft";
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const uid=()=>Math.random().toString(36).slice(2,10);
-const isMine=id=>id.startsWith("m");
+const isMine=id=>id.startsWith("m-");
+const canEdit=id=>isMine(id)||EDIT;
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const GRIP='<svg viewBox="0 0 10 16" aria-hidden="true"><g fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="8" cy="2" r="1.5"/><circle cx="2" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="2" cy="14" r="1.5"/><circle cx="8" cy="14" r="1.5"/></g></svg>';
 const PLUS='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 const CROSS='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const LEFT='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const RIGHT='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const EMOJIS="📝 📋 ✅ ⭐ ❤️ 🔥 💡 🎯 🛏️ 🎒 👛 🧳 🧯 🩹 🏠 🚗 ✈️ 🗺️ 🌍 🏔️ 🏖️ 🏛️ 🍽️ 🍜 🥕 🍳 ☕ 🧁 🛒 🎁 📚 ✏️ 💥 🎬 📺 🎵 🎮 🎨 📷 🧘 🏃 🌿 🌸 🍂 🐾 💼 🎓 💰".split(" ");
 
-function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.mine)&&Array.isArray(s.open))return s}catch(e){}return null}
-let saveT;function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}},120)}
-let state=load()||{mine:[],open:["s0"]};
+const fromData=arr=>arr.map(l=>({id:l.id,icon:l.icon||"📋",title:l.title,items:l.items.map(text=>({id:uid(),text}))}));
+let starters=null;
+if(EDIT){try{const d=JSON.parse(localStorage.getItem(DKEY));if(d&&d.base===BASE&&Array.isArray(d.lists))starters=d.lists}catch(e){}}
+if(!starters)starters=fromData(BASE_LISTS);
+const exportShape=()=>starters.map(l=>({id:l.id,icon:l.icon,title:l.title.trim()||"Untitled list",items:l.items.map(i=>i.text)}));
+const isDirty=()=>JSON.stringify(exportShape())!==BASE_NORM;
+
+function load(){
+  try{
+    const s=JSON.parse(localStorage.getItem(KEY));
+    if(!(s&&Array.isArray(s.mine)&&Array.isArray(s.open)))return null;
+    const fix=id=>/^s\d+$/.test(id)?(BASE_LISTS[+id.slice(1)]||{}).id||id:(/^m(?!-)/.test(id)?"m-"+id.slice(1):id);
+    s.mine.forEach(m=>{m.id=fix(m.id);m.icon=m.icon||"📝"});
+    s.open=s.open.map(fix);
+    return s;
+  }catch(e){return null}
+}
+let saveT;
+function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{
+  localStorage.setItem(KEY,JSON.stringify(state));
+  if(EDIT){if(isDirty())localStorage.setItem(DKEY,JSON.stringify({base:BASE,lists:starters}));else localStorage.removeItem(DKEY)}
+}catch(e){}},120);if(EDIT)updateEditBar()}
+let state=load()||{mine:[],open:[starters[0]?.id].filter(Boolean)};
 function getList(id){return starters.find(l=>l.id===id)||state.mine.find(l=>l.id===id)}
 state.open=state.open.filter(id=>getList(id));
 
 let query="",focusAfter=null;
 const app=$("#app"),board=$("#board"),sideEl=$("#sideLists"),menu=$("#menu"),toastEl=$("#toast");
 const name=l=>l.title.trim()||"Untitled list";
-const dup=(l,text)=>l.items.some(i=>i.text.trim().toLowerCase()===text.trim().toLowerCase());
+const same=(a,b)=>a.trim().toLowerCase()===b.trim().toLowerCase();
+const dup=(l,text)=>l.items.some(i=>same(i.text,text));
 function hl(text){
   const e=esc(text);if(!query)return e;
   const q=esc(query).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
   return e.replace(new RegExp(q,"gi"),m=>`<mark>${m}</mark>`);
 }
-let toastT;function toast(msg){toastEl.textContent=msg;toastEl.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove("show"),2600)}
+let toastT;function toast(msg){toastEl.textContent=msg;toastEl.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove("show"),3200)}
 
 /* ---------- render ---------- */
 function sideRow(l){
@@ -221,49 +726,59 @@ function sideRow(l){
   if(query){const m=l.items.filter(i=>i.text.toLowerCase().includes(query)).length;if(m)n=`${m} match${m>1?"es":""}`}
   return `<li class="side-list${on?" on":""}" data-list="${l.id}">
     <span class="grip" title="Drag onto the board or into one of your lists">${GRIP}</span>
-    <button class="open" data-act="toggle" aria-pressed="${on}"><span class="t">${hl(name(l))}</span><span class="n">${n}</span></button></li>`;
+    <button class="open" data-act="toggle" aria-pressed="${on}"><span class="emoji" aria-hidden="true">${esc(l.icon)}</span><span class="t">${hl(name(l))}</span><span class="n">${n}</span></button></li>`;
 }
 function matches(l){return !query||name(l).toLowerCase().includes(query)||l.items.some(i=>i.text.toLowerCase().includes(query))}
 function renderSidebar(){
   const s=starters.filter(matches),m=state.mine.filter(matches);
   let mineBody;
-  if(!state.mine.length) mineBody=`<p class="empty-note">Nothing here yet. Drag an item onto “Start a new list”, or make a copy of any starter list.</p>`;
-  else if(!m.length) mineBody=`<p class="empty-note">None of your lists match.</p>`;
+  if(!state.mine.length)mineBody=`<p class="empty-note">Nothing here yet. Drag an item onto “Start a new list”, or make a copy of any starter list.</p>`;
+  else if(!m.length)mineBody=`<p class="empty-note">None of your lists match.</p>`;
   else mineBody=`<ul class="side">${m.map(sideRow).join("")}</ul>`;
   sideEl.innerHTML=`
-    <section class="group"><h2>Your lists</h2>${mineBody}<button class="btn ghosty" data-act="new" style="margin:6px 0 0 4px">New list</button></section>
-    <section class="group"><h2>Starter lists</h2>${s.length?`<ul class="side">${s.map(sideRow).join("")}</ul>`:`<p class="empty-note">No starter lists match “${esc(query)}”.</p>`}</section>`;
+    <section class="group"><h2>Your lists</h2>${mineBody}<button class="btn ghosty" data-act="new" style="margin:10px 0 0 4px">New list</button></section>
+    <section class="group"><h2>Starter lists</h2>${s.length?`<ul class="side">${s.map(sideRow).join("")}</ul>`:`<p class="empty-note">No starter lists match “${esc(query)}”.</p>`}
+    ${EDIT?`<button class="btn ghosty" data-act="new-starter" style="margin:10px 0 0 4px">New starter list</button>`:""}</section>`;
 }
-function itemRow(l,it,mine){
+function itemRow(l,it){
+  const mine=isMine(l.id),ed=canEdit(l.id);
   return `<li class="item${it.done?" done":""}" data-list="${l.id}" data-item="${it.id}">
     <span class="grip" title="Drag to another list">${GRIP}</span>
     ${mine?`<input type="checkbox" class="chk" data-act="tick" ${it.done?"checked":""} aria-label="Tick off ${esc(it.text)}">`:""}
     <span class="txt">${hl(it.text)}</span>
     <span class="acts">
-      <button class="icon" data-act="send" title="Add to one of your lists" aria-label="Add “${esc(it.text)}” to one of your lists">${PLUS}</button>
-      ${mine?`<button class="icon" data-act="remove" title="Remove" aria-label="Remove “${esc(it.text)}”">${CROSS}</button>`:""}
+      <button class="icon" data-act="send" title="Add to another list" aria-label="Add “${esc(it.text)}” to another list">${PLUS}</button>
+      ${ed?`<button class="icon" data-act="remove" title="Remove" aria-label="Remove “${esc(it.text)}”">${CROSS}</button>`:""}
     </span></li>`;
 }
 function bucket(l){
-  const mine=isMine(l.id),c=l.items.length,done=mine?l.items.filter(i=>i.done).length:0;
-  return `<section class="bucket ${mine?"mine":"starter"}" data-list="${l.id}" aria-label="${esc(name(l))}">
+  const mine=isMine(l.id),ed=canEdit(l.id),c=l.items.length,done=mine?l.items.filter(i=>i.done).length:0;
+  const idx=starters.indexOf(l);
+  let acts;
+  if(mine)acts=`<button class="txtbtn" data-act="del">Delete list</button>`;
+  else if(EDIT)acts=`<button class="icon" data-act="move" data-dir="-1" title="Move earlier" aria-label="Move earlier in the starter lists" ${idx===0?"disabled":""}>${LEFT}</button>
+    <button class="icon" data-act="move" data-dir="1" title="Move later" aria-label="Move later in the starter lists" ${idx===starters.length-1?"disabled":""}>${RIGHT}</button>
+    <button class="txtbtn" data-act="del">Delete starter list</button>`;
+  else acts=`<button class="txtbtn" data-act="copy">Make my own copy</button>`;
+  return `<section class="bucket px ${mine?"mine":"starter"}${ed?" editable":""}" data-list="${l.id}" aria-label="${esc(name(l))}">
+    <div class="awning" aria-hidden="true"></div>
     <header class="bh">
-      ${mine?`<input class="title-in" data-act="title" value="${esc(l.title)}" placeholder="Name this list" aria-label="List name">`:`<h2>${esc(l.title)}</h2>`}
-      <p class="meta">${c} ${c===1?"item":"items"}${mine?(done?`, ${done} ticked off`:""):", starter list"}</p>
-      <div class="bacts">
-        ${mine?`<button class="txtbtn" data-act="del">Delete list</button>`:`<button class="txtbtn" data-act="copy">Make my own copy</button>`}
+      ${ed?`<button class="lic emoji" data-act="icon" title="Change icon" aria-label="Change icon, currently ${esc(l.icon)}">${esc(l.icon)}</button>`:`<span class="lic emoji" aria-hidden="true">${esc(l.icon)}</span>`}
+      ${ed?`<input class="title-in" data-act="title" value="${esc(l.title)}" placeholder="Name this list" aria-label="List name">`:`<h2>${esc(l.title)}</h2>`}
+      <p class="meta">${c} ${c===1?"item":"items"}${mine?(done?`, ${done} ticked off`:""):(EDIT?", starter list you're editing":", starter list")}</p>
+      <div class="bacts"><span class="l">${acts}</span>
         <button class="icon" data-act="close" title="Close" aria-label="Close ${esc(name(l))}">${CROSS}</button>
       </div>
     </header>
-    <ul class="items">${c?l.items.map(it=>itemRow(l,it,mine)).join(""):`<li class="blank">Drag items here from any list, or type one below.</li>`}</ul>
-    ${mine?`<form class="add" data-list="${l.id}"><input name="t" placeholder="Add an item" aria-label="Add an item to ${esc(name(l))}" autocomplete="off"><button>Add</button></form>`:""}
+    <ul class="items">${c?l.items.map(it=>itemRow(l,it)).join(""):`<li class="blank">Drag items here from any list, or type one below.</li>`}</ul>
+    ${ed?`<form class="add" data-list="${l.id}"><input name="t" placeholder="Add an item" aria-label="Add an item to ${esc(name(l))}" autocomplete="off"><button class="btn">Add</button></form>`:""}
   </section>`;
 }
 function renderBoard(){
   const x=board.scrollLeft,ys={};
   board.querySelectorAll(".bucket").forEach(b=>ys[b.dataset.list]=b.querySelector(".items").scrollTop);
   board.innerHTML=state.open.map(id=>bucket(getList(id))).join("")+
-    `<div class="new-drop"><h2>Start a new list</h2><p>Drop an item or a whole list here.</p><button class="btn" data-act="new">Create an empty list</button></div>`;
+    `<div class="new-drop"><h2>Start a new list</h2><p>This lot is empty. Drop an item or a whole list here to build one.</p><button class="btn" data-act="new">Create an empty list</button></div>`;
   board.scrollLeft=x;
   board.querySelectorAll(".bucket").forEach(b=>{if(ys[b.dataset.list]!=null)b.querySelector(".items").scrollTop=ys[b.dataset.list]});
   if(focusAfter){
@@ -277,6 +792,11 @@ function renderBoard(){
     focusAfter=null;
   }
 }
+function updateEditBar(){
+  const d=isDirty();
+  $("#editmsg").innerHTML=d?"<strong>You have changes that aren't on the live site yet.</strong> Download the updated site and upload it to publish them.":"You're editing the starter lists. Changes are kept in this browser until you download them.";
+  $("#discardBtn").disabled=!d;
+}
 function render(){renderSidebar();renderBoard()}
 
 /* ---------- actions ---------- */
@@ -287,45 +807,63 @@ function openList(id,after){
   }
   focusAfter={...(focusAfter||{}),list:id,reveal:true};
 }
-function createList(title,items=[],after){
-  const m={id:"m"+uid(),title,items};
+function createList(title,items=[],after,icon="📝"){
+  const m={id:"m-"+uid(),icon,title,items};
   state.mine.push(m);openList(m.id,after);return m;
 }
 const copyItem=it=>({id:uid(),text:it.text,done:false});
 function copyAsMine(l){
-  const m=createList(l.title,l.items.map(copyItem),l.id);
+  const m=createList(l.title,l.items.map(copyItem),l.id,l.icon);
   toast(`Copied “${name(l)}” to your lists.`);return m;
 }
 function closeMobileBrowse(){app.classList.remove("browse");$(".browse-btn").setAttribute("aria-expanded","false")}
+function arm(a,label,fn){
+  if(a.dataset.armed){fn();return}
+  const orig=a.textContent;a.dataset.armed="1";a.classList.add("armed");a.textContent=label;
+  setTimeout(()=>{if(a.isConnected){delete a.dataset.armed;a.classList.remove("armed");a.textContent=orig}},3000);
+}
 
 let suppressClick=false;
 document.addEventListener("click",e=>{if(suppressClick){suppressClick=false;e.preventDefault();e.stopPropagation()}},true);
 document.addEventListener("click",e=>{
-  if(!menu.hidden&&!e.target.closest("#menu,[data-act=send]"))closeMenu();
+  if(!menu.hidden&&!e.target.closest("#menu,[data-act=send],[data-act=icon]"))closeMenu();
   const a=e.target.closest("[data-act]");if(!a)return;
   const holder=a.closest("[data-list]"),listId=holder?.dataset.list;
   switch(a.dataset.act){
     case "browse":{const on=app.classList.toggle("browse");a.setAttribute("aria-expanded",on);break}
     case "toggle":
-      if(state.open.includes(listId)){state.open=state.open.filter(i=>i!==listId)}
+      if(state.open.includes(listId))state.open=state.open.filter(i=>i!==listId);
       else{openList(listId);closeMobileBrowse()}
       save();render();break;
     case "close":state.open=state.open.filter(i=>i!==listId);save();render();break;
     case "copy":copyAsMine(getList(listId));save();render();break;
     case "new":createList("");focusAfter.what="title";closeMobileBrowse();save();render();break;
-    case "del":{
-      if(a.dataset.armed){
+    case "new-starter":{
+      const s={id:"s-"+uid(),icon:"📋",title:"",items:[]};starters.push(s);openList(s.id);focusAfter.what="title";
+      closeMobileBrowse();save();render();break}
+    case "move":{
+      const l=getList(listId),i=starters.indexOf(l),j=i+(+a.dataset.dir);
+      if(j<0||j>=starters.length)break;
+      starters.splice(i,1);starters.splice(j,0,l);save();render();break}
+    case "del":
+      arm(a,"Press again to delete",()=>{
         const l=getList(listId);
-        state.mine=state.mine.filter(m=>m.id!==listId);state.open=state.open.filter(i=>i!==listId);
-        save();render();toast(`Deleted “${name(l)}”.`);
-      }else{a.dataset.armed="1";a.classList.add("armed");a.textContent="Press again to delete";
-        setTimeout(()=>{if(a.isConnected){delete a.dataset.armed;a.classList.remove("armed");a.textContent="Delete list"}},3000)}
-      break}
+        if(isMine(listId))state.mine=state.mine.filter(m=>m.id!==listId);else starters=starters.filter(s=>s.id!==listId);
+        state.open=state.open.filter(i=>i!==listId);save();render();toast(`Deleted “${name(l)}”.`);
+      });break;
     case "remove":{
       const l=getList(listId),id=a.closest(".item").dataset.item;
       l.items=l.items.filter(i=>i.id!==id);save();render();break}
-    case "send":openMenu(a,listId,a.closest(".item").dataset.item);break;
+    case "send":openSendMenu(a,listId,a.closest(".item").dataset.item);break;
     case "to":sendTo(a.dataset.to);break;
+    case "icon":openPicker(a,listId);break;
+    case "seticon":setIcon(a.dataset.icon);break;
+    case "discard":
+      arm(a,"Press again to discard",()=>{
+        try{localStorage.removeItem(DKEY)}catch(e){}
+        starters=fromData(BASE_LISTS);state.open=state.open.filter(id=>getList(id));save();render();toast("Changes discarded. Starter lists match the live site again.");
+      });break;
+    case "download":downloadSite();break;
   }
 });
 document.addEventListener("change",e=>{
@@ -343,27 +881,44 @@ document.addEventListener("input",e=>{
   }
 });
 document.addEventListener("submit",e=>{
+  if(e.target.closest("#menu")){e.preventDefault();const v=e.target.querySelector("input").value.trim();if(v)setIcon(firstGlyph(v));return}
   const f=e.target.closest(".add");if(!f)return;e.preventDefault();
   const inp=f.querySelector("input"),text=inp.value.trim(),l=getList(f.dataset.list);if(!text)return;
   if(dup(l,text)){toast(`“${text}” is already on this list.`);return}
   l.items.push({id:uid(),text,done:false});focusAfter={list:l.id,what:"add"};save();render();
 });
 
-/* ---------- add-to menu ---------- */
-function openMenu(btn,listId,itemId){
-  const others=state.mine.filter(m=>m.id!==listId);
-  menu.dataset.list=listId;menu.dataset.item=itemId;
-  menu.innerHTML=`<p class="mh">Add to</p>${others.map(m=>`<button role="menuitem" data-act="to" data-to="${m.id}">${esc(name(m))}</button>`).join("")}<button role="menuitem" class="newl" data-act="to" data-to="__new">New list</button>`;
+/* ---------- menus: add-to and icon picker ---------- */
+function showMenu(btn){
   menu.hidden=false;
   const r=btn.getBoundingClientRect(),w=menu.offsetWidth,h=menu.offsetHeight;
-  let left=Math.min(r.right-w,innerWidth-w-8);left=Math.max(8,left);
+  let left=Math.min(r.left,innerWidth-w-8);left=Math.max(8,left);
   let top=r.bottom+6;if(top+h>innerHeight-8)top=Math.max(8,r.top-h-6);
   menu.style.left=left+"px";menu.style.top=top+"px";
-  menu.querySelector("button").focus();
+  menu.querySelector("button")?.focus();
 }
+function openSendMenu(btn,listId,itemId){
+  const row=l=>`<button class="row" role="menuitem" data-act="to" data-to="${l.id}"><span class="emoji">${esc(l.icon)}</span> ${esc(name(l))}</button>`;
+  const mine=state.mine.filter(m=>m.id!==listId),st=EDIT?starters.filter(s=>s.id!==listId):[];
+  menu.setAttribute("role","menu");menu.dataset.mode="send";menu.dataset.list=listId;menu.dataset.item=itemId;
+  menu.innerHTML=`<p class="mh">Add to your lists</p>${mine.map(row).join("")}<button class="row newl" role="menuitem" data-act="to" data-to="__new">New list</button>`+
+    (st.length?`<p class="mh">Add to a starter list</p>${st.map(row).join("")}`:"");
+  showMenu(btn);
+}
+function openPicker(btn,listId){
+  menu.setAttribute("role","dialog");menu.setAttribute("aria-label","Choose an icon");menu.dataset.mode="icon";menu.dataset.list=listId;
+  menu.innerHTML=`<p class="mh">Choose an icon</p><div class="grid">${EMOJIS.map(e=>`<button class="pick emoji" data-act="seticon" data-icon="${e}" aria-label="${e}">${e}</button>`).join("")}</div>
+    <form><input placeholder="Or paste any emoji" aria-label="Or paste any emoji" maxlength="16"><button class="btn">Use</button></form>`;
+  showMenu(btn);
+}
+function firstGlyph(s){
+  if(window.Intl&&Intl.Segmenter){for(const g of new Intl.Segmenter(undefined,{granularity:"grapheme"}).segment(s))return g.segment}
+  return [...s].slice(0,2).join("");
+}
+function setIcon(icon){const l=getList(menu.dataset.list);closeMenu();if(!l)return;l.icon=icon;save();render()}
 function closeMenu(){menu.hidden=true}
 function sendTo(to){
-  const from=getList(menu.dataset.list),it=from.items.find(i=>i.id===menu.dataset.item);closeMenu();
+  const from=getList(menu.dataset.list),it=from?.items.find(i=>i.id===menu.dataset.item);closeMenu();
   if(!it)return;
   if(to==="__new"){createList("",[copyItem(it)]);focusAfter.what="title";save();render();return}
   const t=getList(to);
@@ -371,14 +926,40 @@ function sendTo(to){
   t.items.push(copyItem(it));save();render();toast(`Added to “${name(t)}”.`);
 }
 document.addEventListener("keydown",e=>{
-  if(e.key==="Escape"){if(!menu.hidden)closeMenu();if(drag)cancelDrag()}
-  if(!menu.hidden&&(e.key==="ArrowDown"||e.key==="ArrowUp")){
+  if(e.key==="Escape"){if(!menu.hidden)closeMenu();if(drag)endDrag()}
+  if(!menu.hidden&&menu.dataset.mode==="send"&&(e.key==="ArrowDown"||e.key==="ArrowUp")){
     const bs=[...menu.querySelectorAll("button")],i=bs.indexOf(document.activeElement);
     bs[(i+(e.key==="ArrowDown"?1:-1)+bs.length)%bs.length].focus();e.preventDefault();
   }
 });
 addEventListener("resize",closeMenu);
 board.addEventListener("scroll",closeMenu,{passive:true});
+
+/* ---------- publisher: download the updated site ---------- */
+async function buildSite(){
+  let src=null;
+  try{const r=await fetch(location.href.split("#")[0],{cache:"no-store"});if(r.ok){const t=await r.text();if(t.includes('id="starter-data"'))src=t}}catch(e){}
+  if(!src)src=SNAPSHOT;
+  const data=JSON.stringify(exportShape(),null,1).replace(/</g,"\\u003c");
+  return src.replace(/(<script id="starter-data" type="application\/json">)[\s\S]*?(<\/script>)/,(m,a,b)=>a+data+b);
+}
+async function downloadSite(){
+  const btn=$("#downloadBtn");btn.disabled=true;
+  try{
+    const html=await buildSite();
+    let dl=null;
+    if(window.claude&&typeof window.claude.use==="function"){try{dl=await window.claude.use("downloads")}catch(e){}}
+    if(dl){
+      try{await dl.save({filename:"index.html",data:html});toast("Saved index.html. Upload it to your GitHub repository to publish your changes.")}
+      catch(err){if(err&&err.code!=="declined")toast("The download couldn't start here. Open your live site with ?edit and download from there.")}
+    }else{
+      const url=URL.createObjectURL(new Blob([html],{type:"text/html"}));
+      const a=document.createElement("a");a.href=url;a.download="index.html";document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),5000);
+      toast("Downloaded index.html. Upload it to your GitHub repository to publish your changes.");
+    }
+  }finally{btn.disabled=false}
+}
 
 /* ---------- drag and drop (pointer based, works with mouse and touch) ---------- */
 let drag=null;const ph=document.createElement("li");ph.className="placeholder";
@@ -390,7 +971,7 @@ document.addEventListener("pointerdown",e=>{
   if(e.pointerType!=="mouse"&&!onGrip)return;
   if(onGrip)e.preventDefault();
   drag={src,kind:src.classList.contains("item")?"item":"list",x0:e.clientX,y0:e.clientY,x:e.clientX,y:e.clientY,on:false,target:null};
-  addEventListener("pointermove",onMove);addEventListener("pointerup",onUp);addEventListener("pointercancel",cancelDrag);
+  addEventListener("pointermove",onMove);addEventListener("pointerup",onUp);addEventListener("pointercancel",endDrag);
 });
 function onMove(e){
   if(!drag)return;drag.x=e.clientX;drag.y=e.clientY;
@@ -400,9 +981,9 @@ function onMove(e){
 function startDrag(){
   drag.on=true;closeMenu();getSelection()?.removeAllRanges();
   document.body.classList.add("dragging");drag.src.classList.add("is-source");
-  const g=document.createElement("div");g.className="ghost";
-  if(drag.kind==="item"){g.innerHTML=`${esc(getList(drag.src.dataset.list).items.find(i=>i.id===drag.src.dataset.item).text)}<span class="hint"></span>`}
-  else{const l=getList(drag.src.dataset.list);g.innerHTML=`<strong>${esc(name(l))}</strong>, ${l.items.length} items<span class="hint"></span>`}
+  const g=document.createElement("div");g.className="ghost";const l=getList(drag.src.dataset.list);
+  if(drag.kind==="item")g.innerHTML=`${esc(l.items.find(i=>i.id===drag.src.dataset.item).text)}<span class="hint"></span>`;
+  else g.innerHTML=`<span class="emoji">${esc(l.icon)}</span> <strong>${esc(name(l))}</strong>, ${l.items.length} items<span class="hint"></span>`;
   document.body.appendChild(g);drag.ghost=g;placeGhost();
   const tick=()=>{if(!drag||!drag.on)return;
     const r=board.getBoundingClientRect(),edge=60;let moved=false;
@@ -416,24 +997,23 @@ function startDrag(){
 }
 function placeGhost(){drag.ghost.style.transform=`translate(${drag.x+14}px,${drag.y+12}px) rotate(-1.5deg)`}
 function hint(t){drag.ghost.querySelector(".hint").textContent=t}
-function clearHot(){
-  document.querySelectorAll(".hot,.nope").forEach(n=>n.classList.remove("hot","nope"));ph.remove();
-}
+function clearHot(){document.querySelectorAll(".hot,.nope").forEach(n=>n.classList.remove("hot","nope"));ph.remove()}
+const movesBetween=(from,to)=>from!==to&&isMine(from)===isMine(to);
 function hitTest(){
   clearHot();drag.target=null;hint("");
   const el=document.elementFromPoint(drag.x,drag.y);if(!el)return;
   const b=el.closest(".bucket"),nd=el.closest(".new-drop"),bd=el.closest(".board"),srcList=drag.src.dataset.list;
   if(drag.kind==="item"){
-    if(b&&b.classList.contains("mine")){
+    if(b&&b.classList.contains("editable")){
       const ul=b.querySelector(".items"),rows=[...ul.querySelectorAll(".item")].filter(li=>li!==drag.src);
       let idx=rows.length;for(let i=0;i<rows.length;i++){const r=rows[i].getBoundingClientRect();if(drag.y<r.top+r.height/2){idx=i;break}}
       if(rows[idx])ul.insertBefore(ph,rows[idx]);else ul.appendChild(ph);
       b.classList.add("hot");drag.target={type:"into",id:b.dataset.list,idx};
-      if(isMine(srcList)&&b.dataset.list!==srcList)hint("Moves it. Hold Alt to copy instead.");
+      if(movesBetween(srcList,b.dataset.list))hint("Moves it. Hold Alt to copy instead.");
     }else if(b){b.classList.add("nope");hint("Starter lists stay as they are. Drop into one of yours.")}
     else if(nd){nd.classList.add("hot");drag.target={type:"new"}}
   }else{
-    if(b&&b.classList.contains("mine")&&b.dataset.list!==srcList){b.classList.add("hot");drag.target={type:"merge",id:b.dataset.list};hint("Adds every item you don't already have.")}
+    if(b&&b.classList.contains("editable")&&b.dataset.list!==srcList){b.classList.add("hot");drag.target={type:"merge",id:b.dataset.list};hint("Adds every item it doesn't already have.")}
     else if(b&&b.dataset.list===srcList){}
     else if(b){b.classList.add("nope");hint("Drop into one of your lists, or on the empty board to open it.")}
     else if(nd){nd.classList.add("hot");drag.target={type:"new"};hint("Makes your own copy.")}
@@ -445,28 +1025,29 @@ function onUp(e){
   if(drag.on){hitTest();const t=drag.target,d=drag;suppressClick=true;setTimeout(()=>suppressClick=false,60);endDrag();if(t)drop(d,t,e.altKey)}
   else endDrag();
 }
-function cancelDrag(){endDrag()}
 function endDrag(){
   if(!drag)return;cancelAnimationFrame(drag.raf);drag.ghost?.remove();drag.src.classList.remove("is-source");
   clearHot();document.body.classList.remove("dragging");
-  removeEventListener("pointermove",onMove);removeEventListener("pointerup",onUp);removeEventListener("pointercancel",cancelDrag);
+  removeEventListener("pointermove",onMove);removeEventListener("pointerup",onUp);removeEventListener("pointercancel",endDrag);
   drag=null;
 }
 function drop(d,t,altCopy){
   const fromId=d.src.dataset.list,from=getList(fromId);
   if(d.kind==="item"){
-    const it=from.items.find(i=>i.id===d.src.dataset.item),moving=isMine(fromId)&&!altCopy;
+    const it=from.items.find(i=>i.id===d.src.dataset.item);
     if(t.type==="into"){
       const to=getList(t.id);
       if(to===from){from.items.splice(from.items.indexOf(it),1);from.items.splice(t.idx,0,it)}
       else{
-        if(dup(to,it.text)){const ex=to.items.find(i=>i.text.trim().toLowerCase()===it.text.trim().toLowerCase());focusAfter={list:to.id,flash:ex.id};render();toast(`“${it.text}” is already in “${name(to)}”.`);return}
+        const ex=to.items.find(i=>same(i.text,it.text));
+        if(ex){focusAfter={list:to.id,flash:ex.id};render();toast(`“${it.text}” is already in “${name(to)}”.`);return}
+        const moving=movesBetween(fromId,to.id)&&!altCopy;
         if(moving){from.items.splice(from.items.indexOf(it),1);to.items.splice(t.idx,0,it)}
         else to.items.splice(t.idx,0,copyItem(it));
-        focusAfter={list:to.id,flash:moving?it.id:to.items[t.idx].id};
+        focusAfter={list:to.id,flash:to.items[t.idx].id};
       }
     }else if(t.type==="new"){
-      let moved=it;if(moving)from.items.splice(from.items.indexOf(it),1);else moved=copyItem(it);
+      let moved;if(isMine(fromId)&&!altCopy){from.items.splice(from.items.indexOf(it),1);moved=it}else moved=copyItem(it);
       createList("",[moved]);focusAfter.what="title";
     }
   }else{
@@ -474,12 +1055,13 @@ function drop(d,t,altCopy){
       const to=getList(t.id);let n=0;
       from.items.forEach(i=>{if(!dup(to,i.text)){to.items.push(copyItem(i));n++}});
       toast(n?`Added ${n} item${n>1?"s":""} from “${name(from)}”.`:`Everything from “${name(from)}” is already there.`);
-    }else if(t.type==="new"){copyAsMine(from)}
-    else if(t.type==="open"){openList(fromId)}
+    }else if(t.type==="new")copyAsMine(from);
+    else if(t.type==="open")openList(fromId);
   }
   save();render();
 }
 
+if(EDIT){app.classList.add("editing");$("#editbar").hidden=false;$("#leaveEdit").href=location.pathname;updateEditBar()}
 render();
 </script>
 </body>
